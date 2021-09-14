@@ -10,13 +10,13 @@ const WelcomePage = ( props) =>{
  const UserName =  localStorage.getItem("UserName");
 
  let ManualWidth = window.innerWidth >= 960 ? "100%" : "100%";
- let ManualMargin = window.innerWidth >= 960 ? "1.3% 0% 3% 0%" : " 3% 0 5% 0%";
+ let ManualMargin = window.innerWidth >= 960 ? "1.3% 0% 0% 0%" : " 3% 0 5% 0%";
       return (
        <div 
           style={{
             width:ManualWidth,
             margin:ManualMargin ,
-            minHeight:"555px",
+            minHeight:"500px",
             padding:".1px 0 1.5% 0",
             textAlign:"center",
             boxShadow: "0 3px 5px 2px  #a6a6a6",
@@ -36,7 +36,7 @@ const WelcomePage = ( props) =>{
       <GridItem sx={12} sm={12} md={6}>
             <Card   
               style={{
-                margin:"20% 0 0 0",
+                margin:"20% 0 25% 0",
                 fontSize:"15px", 
                 background:"#ffffff",            
                 fontWeight:"500",

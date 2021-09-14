@@ -1,16 +1,16 @@
 const YourCourses = {
     HeadderStyle:{
-     border: "1px solid #dcdee0",
-     borderRadius: "6px",
+    // border: "1px solid #dcdee0",
+    // borderRadius: "6px",
      color: "rgba(0, 0, 0, 0.87)",
-     background: "#fff",
+     background: "rgb(35, 52, 79,.05)",
      width: "100%",
      boxShadow: "0px 3px 4px 2px rgb(86, 84, 84,.6)",
      position: "relative",
      display: "flex",
      flexDirection: "column",
      padding:"1% 2% 1% 2%",
-     marginBottom:"2%",
+     margin:"0 0% 2% 0%",
      minWidth: "0",
      wordWrap: "break-word",
      fontSize: ".875rem"

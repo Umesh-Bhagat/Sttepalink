@@ -72,7 +72,6 @@ export const UpdateUserProfile = (DataToStore,ProfileId,tokenId,UserId) => {
     }
     axios.put('/userDetails/'+UserProfileId+'.json?auth='+tokenId,UserDataToUpdate)
     .then(response => {
-      console.log("redux-actin",response.data);
       const UserDataToSentToReduxStore = {
         userData:response.data.userData,
         userId:response.data.userId

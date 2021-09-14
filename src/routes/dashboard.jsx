@@ -7,7 +7,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import PowerSettingsNew from "@material-ui/icons/PowerSettingsNew";
 
 import WelcomePage from "../Views/WelcomePage/WelcomePage.jsx";
-import UserProfile from "../Views/Profile/ProfilePage/Profile.jsx";
+import UserProfile from "../Views/Profile/ProfilePage/ProfilePage.jsx";
 import PricingPlan from "../Layouts/Pricing/PricingPlanDis.jsx";
 import Notification from "../Views/Notification/Notification.jsx";
 import YourCourses from "../Views/YourCourses/YourCourses.jsx";
@@ -22,7 +22,7 @@ const dashboardRoutes = [
     component: Notification
   },
   {
-    path: "/Home",
+    path: "/Info-page",
     sidebarName: "Info Page ",
     navbarName: "Information Page",
     icon: InfoSharpIcon,

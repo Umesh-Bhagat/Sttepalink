@@ -42,7 +42,7 @@ const sidebarStyle = theme => ({
       textAlign: "left",
       paddingRight: "0px",
       paddingLeft: "0",
-      transform: `translate3d(${drawerWidth}px, 0, 0)`,
+    //  transform: `translate3d(${drawerWidth}px, 0, 0)`,
       ...transition
     }
   },
@@ -71,8 +71,9 @@ const sidebarStyle = theme => ({
     fontWeight: "400",
     lineHeight: "30px",
     textDecoration: "none",
+    color:"rgb(255,255,255)",
     backgroundColor: "transparent",
-    "&,&:hover": {
+    "&:hover": {
       color: "#FFFFFF"
     }
   },
@@ -98,9 +99,10 @@ const sidebarStyle = theme => ({
     display: "block",
     top: "0",
     left: "0",
+    background:"red",
     backgroundSize: "cover",
     backgroundPosition: "center center",
-    "&:after": {
+    "&:before": {
       position: "absolute",
       zIndex: "3",
       width: "100%",
@@ -108,7 +110,7 @@ const sidebarStyle = theme => ({
       content: '""',
       display: "block",
       background: "#4d4d4d",
-      opacity: ".8"
+      opacity: ""
     }
   },
   list: {
@@ -203,11 +205,11 @@ const sidebarStyle = theme => ({
   gray: {
     backgroundColor: "#a6a6a6",
     boxShadow:
-      "0 12px 12px -4px rgba(255, 255, 255,.5), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(255, 255, 255,.2)",
+      "0 12px 12px -4px rgba(255, 255, 255,.3), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(255, 255, 255,.2)",
     "&:hover": {
       backgroundColor: "#a6a6a6",
       boxShadow:
-        "0 12px 20px -4px rgba(255, 255, 255,.5), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(255, 255, 255,.2)"
+        "0 12px 20px -4px rgba(255, 255, 255,.3), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(255, 255, 255,.2)"
     }
   },
   sidebarWrapper: {

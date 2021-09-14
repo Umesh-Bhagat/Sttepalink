@@ -1,26 +1,29 @@
 import React , { Component } from 'react';
-
-import {storage} from '../../../firebase/Index';
-
-import NotesPage from "./NoteDisplay/NotePage.jsx";
+import {connect} from "react-redux";
 import Menu from "@material-ui/icons/Menu";
+import { createBrowserHistory } from "history";
+
+import Spinner from "../../../ComponentsMaterialUi/Spinner/Spinner";
+import {storage} from '../../../firebase/Index';
+import NotesPage from "./NoteDisplay/NotePage.jsx";
 import GridContainer from '../../../ComponentsMaterialUi/Grid/GridContainer.jsx';
 import GridItem from '../../../ComponentsMaterialUi/Grid/GridItem.jsx';
+import Card from "../../../ComponentsMaterialUi/Card/Card.jsx";
+import CardBody from "../../../ComponentsMaterialUi/Card/CardBody.jsx";
 import Modal from '../../../ComponentsMaterialUi/Modal/Modal'; 
-import Li from "../../../ComponentsMaterialUi/CustomLists/Lists.jsx";
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import ListCardForm from '../../../ComponentsMaterialUi/CustomLists/ListCardForm.jsx';
-import { createBrowserHistory } from "history";
 import Button from '../../../ComponentsMaterialUi/CustomButtons/Button.jsx';
+import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
+import axios from "../../../hoc/Axious/Axious";
 
 
 const history = createBrowserHistory({forceRefresh: true});
 
 class TutorialSection extends Component {
   state ={
-    ListOfCurrentSubTopic:[],
     TopicName:" ",
     TopicNotes:" ",
-    VideoNAmeForUrl:' ',
     VideoURL:" ",
     ToggleNotesPageDisplay:false,
     BlackDropToggle:false,
@@ -87,8 +90,9 @@ class TutorialSection extends Component {
        {NotesPageDisplay}
      </div>
     ):null;
-      
+ 
     let FormArrayForSubList=[];
+    console.log(this.props.SubTopics)
     for(let key in this.props.SubTopics){
       FormArrayForSubList.push({
         ...this.props.SubTopics[key],
@@ -96,38 +100,107 @@ class TutorialSection extends Component {
       });
     }
       
-    console.log(FormArrayForSubList);
     let CurrentSubTopic =this.state.BlackDropToggle?(
-      <ListCardForm heading="Choose Topic From Here..">
-          {FormArrayForSubList.map(formLog => ( 
-            <GridItem key={formLog.id} xs={12} sm={12} md={12}>
-              <Li
-                 style={{
-                    fontWeight:"650",
-                    padding:"0 0 0 0 ",
-                    border:"1px solid  #e6e6e6"
-                 }}
-                 id={formLog.id}
-                 PartAfixedTitle= "Topic"
-                 PartAToDisplay = {formLog.TopicNumber}
-                 PartBToDisplay = {formLog.TopicName}
-                 clicked={(e)=>this.DisplayONTtorialScreen(e,formLog,formLog.TopicName)}
-                >
-              </Li>
-           </GridItem>
-         ))}
-     </ListCardForm>
+     <Modal left="35%" top="4%" right="15%" show={this.state.BlackDropToggle} BlackDrop={this.BlackDropToggle}>
+       <Card style={{margin:"0"}}>
+         <CardBody style={{padding:"0"}}>
+       <GridContainer 
+         style={{
+           color:"#4d4d4d",
+           fontSize:"18px",
+           fontWeight:"500",
+           display:"flex",
+           margin:"0 0 0 0",
+           padding:"4% 0 0% 0%",
+           background:"#8c8c8c",
+           color:"white"
+         }} 
+       >
+         <GridItem 
+           sx={2} sm={2} md={2}
+           style={{
+              margin:"0"
+            }}>
+            S.No.
+         </GridItem>
+         <GridItem 
+           sx={10} sm={10} md={10}
+           style={{
+             margin:"0"
+            }}
+          >
+            Topic Name
+         </GridItem>
+       </GridContainer>
+       <div style={{height:"270px",margin:"0 .1% 0 .1% .5%", borderBottom:"1px solid gray",overflow:"auto"}}>
+       {FormArrayForSubList.map((formLog,indexOf) => ( 
+          <GridContainer 
+            key={formLog.id} 
+            style={{
+                width1:"20%",
+                padding:"0% 0% 0% 3%",
+                background:"white",
+                borderBottom:"1px solid #bfbfbf",
+                fontSize:'16px',
+                fontWeight:'500',
+                "&:hover": {
+                  background:"#f2f2f2",
+                  fontSize:"17%",
+                }
+               }}
+              onClick={(e)=>this.DisplayONTtorialScreen(e,formLog,formLog.TopicName)}
+           >
+             <GridItem 
+               sx={2} sm={2} md={2}
+               style={{ 
+                  width:"20%",
+                  color:"#4d4d4d",
+                  marginBottom:".3%",
+                  padding:".5% 0 0 0 ",
+                  display:"flex"
+                }}
+             >
+               <span style={{padding:"0% 2% 0 0"}}>
+                 <MenuBookIcon/>
+               </span>
+                <div style={{padding:"0% 3% .7% 0%"}}>
+                   Topic
+                </div>
+                {indexOf + 1}
+             </GridItem>
+             <GridItem 
+                sx={10} sm={10} md={10}
+                style={{ 
+                  width:"60%",
+                  color:"#4d4d4d",
+                  marginBottom:".3%",
+                  padding:".5% 0 0 1%"
+                }}
+             >
+                 {formLog.TopicName}
+             </GridItem>
+           
+           </GridContainer>
+       ))}
+       </div>
+       </CardBody>
+       </Card>
+     </Modal>
     ):null;
-      
+       
     return (
       <div>
         {TutorialScreenAndNoteBoard}
-        <Modal left="35%" right="15%" show={this.state.BlackDropToggle} BlackDrop={this.BlackDropToggle}>
-         {CurrentSubTopic}
-        </Modal>      
+         {CurrentSubTopic}   
       </div>
     );
   }   
 }
 
-export default TutorialSection ; 
+const mapStateToProps = state =>{
+  return{
+    SubTopics : state.StudentCourses.topicsList
+  }
+}
+
+export default connect(mapStateToProps,null)(withErrorHandler(TutorialSection,axios)); 

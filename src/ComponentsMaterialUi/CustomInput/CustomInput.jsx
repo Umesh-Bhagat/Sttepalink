@@ -22,6 +22,8 @@ function CustomInput({ ...props }) {
     formControlProps,
     labelText,
     handleChange,
+    selectForm,
+    style,
     elementType,
     selectPlaceholder,
     className,
@@ -50,6 +52,8 @@ function CustomInput({ ...props }) {
     [" " + classes.labelRootError]: error,
     [" " + classes.labelRootSuccess]: success && !error,
   });
+
+ 
   const underlineClasses = classNames({
     [classes.underlineError]: error,
     [classes.underlineSuccess]: success && !error,
@@ -85,6 +89,7 @@ function CustomInput({ ...props }) {
           underline: underlineClasses,
         }}
         className={classes.InputStyle}
+        style={style}
         id={id}
         value={value}
         onChange={handleChange}
@@ -132,15 +137,16 @@ function CustomInput({ ...props }) {
         onClose={handleClose}
         onOpen={handleOpen}
         value={value}
-        onChange={handleChange}
+        onClick={handleChange}
       >
   
-      {menuOptions.map(meunItems => (
+      {menuOptions.map(menuItems => (
        <MenuItem 
-         key={meunItems.value}
-         value={meunItems.value}
+         key={menuItems.value}
+         value={menuItems.value}
+        
        >
-        {meunItems.displayValue}
+        {menuItems.value}
        </MenuItem>
       ))}
       </Select>

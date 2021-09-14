@@ -12,6 +12,7 @@ import buttonStyle from "../../assets/jss/material-dashboard-react/components/bu
 function RegularButton({ ...props }) {
   const {
     classes,
+    selectForm,
     color,
     round,
     children,
@@ -32,6 +33,7 @@ function RegularButton({ ...props }) {
     [classes[color]]: color,
     [classes.round]: round,
     [classes.disabled]: disabled,
+    [classes.selectForm]:selectForm,    
     [classes.simple]: simple,
     [classes.block]: block,
     [classes.link]: link,

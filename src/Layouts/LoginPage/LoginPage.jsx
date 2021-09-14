@@ -153,7 +153,7 @@ class SttepalinkHome extends Component {
     const { classes } =this.props; 
     let  redirectToHomePage = null;
     if(this.props.IsAuthenticated){
-      redirectToHomePage = <Redirect to="/home" />
+      redirectToHomePage = <Redirect to="/Info-page" />
     }
     let Model = this.state.showModel ? (
       <BlackDropModel show={this.state.showModel} BlackDrop={this.ToggleModel}>

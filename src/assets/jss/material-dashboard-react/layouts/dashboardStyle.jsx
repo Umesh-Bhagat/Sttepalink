@@ -24,8 +24,8 @@ const appStyle = theme => ({
     overflowScrolling: "touch"
   },
   content: {
-    marginTop: "30px",
-    padding: "30px 15px",
+    marginTop: "27px",
+    padding: "15px 0 0 0px",
     minHeight: "calc(100vh - 123px)",
     background:"rgb(242, 242, 242)"
   },

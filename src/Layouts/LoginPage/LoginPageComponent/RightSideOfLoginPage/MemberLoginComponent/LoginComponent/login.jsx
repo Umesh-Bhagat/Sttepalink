@@ -6,7 +6,8 @@ import GridContainer from '../../../../../../ComponentsMaterialUi/Grid/GridConta
 import Button from '../../../../../../ComponentsMaterialUi/CustomButtons/Button.jsx';
 import GridItem from '../../../../../../ComponentsMaterialUi/Grid/GridItem.jsx';
 import CardBody from '../../../../../../ComponentsMaterialUi/Card/CardBody.jsx';
-
+import withErrorHandler from "../../../../../../hoc/withErrorHandler/withErrorHandler";
+import axios from "../../../../../../hoc/Axious/Axious";
 import './login.css';
 
 
@@ -118,4 +119,4 @@ const Loginclass = ({...props}) =>{
       );   
   }
 
-export default  withStyles(useStyles)(Loginclass);
+export default  withStyles(useStyles)(withErrorHandler(Loginclass,axios));

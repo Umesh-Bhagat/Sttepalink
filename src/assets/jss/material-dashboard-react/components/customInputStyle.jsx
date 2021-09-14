@@ -12,13 +12,13 @@ const customInputStyle = {
      
     }
   },
- 
   InputStyle: {
     width:"100%",
     background: 'rgb(153, 153, 153,.4)',
     border: 0,
     fontSize:'17px',
     fontWeight:"500",
+    borderBottom:"1px solid black",
     boxShadow: '0 3px 5px 2px rgba(237, 237, 237, .3)',
   },
   underline: {
@@ -89,8 +89,8 @@ const customInputStyle = {
     border: "none",
     boxShadow: "0px 1px 1px rgb(169, 168, 168)",
     backgroundColor:" rgb(231, 230, 230)",
-    
-}
+  },
+ 
 };
 
 export default customInputStyle;

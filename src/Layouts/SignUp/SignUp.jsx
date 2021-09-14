@@ -4,31 +4,29 @@ import { createBrowserHistory } from "history";
 import {Redirect} from 'react-router-dom';
 
 import CustomInput from '../../ComponentsMaterialUi/CustomInput/CustomInput.jsx';
-import SignUpForm from "../../ComponentsMaterialUi/SignUpOrLoginForm/SignUpOrLoginForm.jsx";
+import CustomButton from "../../ComponentsMaterialUi/CustomButtons/Button.jsx";
 import GridContainer from '../../ComponentsMaterialUi/Grid/GridContainer.jsx';
 import GridItem from '../../ComponentsMaterialUi/Grid/GridItem.jsx';
+import Card from "../../ComponentsMaterialUi/Card/Card.jsx";
+import CardBody from "../../ComponentsMaterialUi/Card/CardBody.jsx";
+import SttepalinkLogo from "../../assets/images/Untitled.png";
 import * as actions from "../../Store/actions/index";
-
-
 
 const history = createBrowserHistory({forceRefresh: true});
 
-
-
 class SignUpComponent extends Component{
-
   state={
     userDetails:{
       name:{
        elementType:'input',
        type:'text',
-       placeholder:'Enter Your Full Name' ,
+       placeholder:'Enter Name' ,
        value:""
       },
       emailId:{
        elementType:'input',
        type:'email',
-       placeholder:'Enter Your e-mail Id',
+       placeholder:'Enter e-mail Id',
        value:""
       },
       workAs:{
@@ -96,13 +94,13 @@ class SignUpComponent extends Component{
       SchoolName:{
        elementType:'input',
        type:'text',
-       placeholder:"Enter your School's Name" ,
+       placeholder:"Enter School's Name" ,
        value:""
       },
       mobileNo:{
        elementType:'input',
        type:'number',
-       placeholder:'Enter Your Contact Number',
+       placeholder:'Enter Contact No.',
        value:''
       },
       dateOfBirth:{
@@ -123,19 +121,19 @@ class SignUpComponent extends Component{
       fatherName:{
        elementType:'input',
        type:'text',
-       placeholder:"Enter Your Father's Name",
+       placeholder:"Enter Father's Name",
        value:''
       },
       currentAddress:{
        elementType:'input',
        type:'text',
-       placeholder:'Enter Your Current Address',
+       placeholder:'House Address',
        value:''
       },
       landMark:{
        elementType:'input',
        type:'text',
-       placeholder:'Enter Your Near By Land Mark',
+       placeholder:'Land Mark',
        value:''
       },
       postoffice:{
@@ -153,7 +151,7 @@ class SignUpComponent extends Component{
       pincode:{
        elementType:'input',
        type:'text',
-       placeholder:'Pincode',
+       placeholder:'Pin Code No.',
        value:''
       },
       states:{
@@ -171,7 +169,7 @@ class SignUpComponent extends Component{
       ConfirmPassword:{
        elementType:'input',
        type:'password',
-       placeholder:'Confirm Password',
+       placeholder:'Re-Enter Password',
        value:""
       }
     },
@@ -215,16 +213,6 @@ class SignUpComponent extends Component{
    // SelectedSubjectsForm:true
   }
 
-
-  componentDidMount(){
-   // const token = localStorage.getItem('token');
-   // const userId = localStorage.getItem('UserDetail');
-   // console.log(history.location.pathname , token, userId);
-   // if(token|| token){
-   //   history.push("/");
-   //   console.log("we are in")
-   // }
-  }
 
   PasswordValidation = (Password1 , Password2) =>{
      if((Password1 === Password2)){
@@ -578,388 +566,444 @@ class SignUpComponent extends Component{
       }
   
       
-      
       let form =(
-
-        <GridContainer 
-        justify="center"
-        style={{margin:"0%"}}
-        > 
-         <GridItem xs={12} sm={12} md={12}>
-           <p style={{
-             textAlign:"center",
-             fontSize: "130%",
-             fontWeight:"650",
-             padding:".5% 0 1% 1%",
-             color:"#666666",
-             textDecoration:"underline"}}> Your Plan : {Package}</p>
+        <Card style={{background:"rgb(255, 255, 255,.6)",boxShadow:"none",margin:"0%",border:"1px solid rgb(217, 217, 217)"}}> 
+      <GridContainer style={{background:"rgb(230, 231, 237)"}}>
+        <GridItem xs={12} sm={7} md={7}>
+         <CardBody>
+           <GridContainer>
+             <GridItem xs={12} sm={12} md={12}>
+               <div style={{
+                 width:"100%",
+                 padding:"7% 0 0 25%"
+               }}>
+                 <div 
+                   style={{
+                     width:"65%",
+                     height:"auto",
+                   }}
+                 >
+                   <img style={{width:"100%"}} src={SttepalinkLogo} alt="infoImage"/>
+                 </div>
+               </div>
+               <div>
+                 <p style={{
+                   width:"100%",
+                   textAlign:"center",
+                   fontSize:"28px",
+                   fontWeight:"700",
+                   marginBottom:"2%"
+                 }}>
+                   STTEPALINK.COM
+                 </p>
+               </div>
+             </GridItem>
+             <GridItem xs={12} sm={12} md={12} style={{color: "rgb(98, 92, 92)",fontSize:"14px",fontWeight:"650",margin:"0% 0% 0% 2%"}}>
+             &nbsp;&nbsp; &nbsp;Sttepalink is a Learning Platform, Where You Come And Get Your All  Doubt Cleared.
+              We Help You Through Providing You a videos Tutorials And Relates Notes.Sttepalink is a Learning Platform, Where You Come And Get Your All  Doubt Cleared.
+              We Help You Through Providing You a videos Tutorials And Relates Notes.Sttepalink is a Learning Platform, Where You Come And Get Your All  Doubt Cleared.
+              We Help You Through Providing You a videos Tutorials And Relates Notes.Sttepalink is a Learning Platform, Where You Come And Get Your All  Doubt Cleared.
+              We Help You Through Providing You a videos Tutorials And Relates Notes. 
+             </GridItem>
+           </GridContainer>
+         </CardBody>
          </GridItem>
-         <GridItem  xs={10} sm={10} md={4} style={{padding:"0 2%"}}>
-         <SignUpForm  clicked = {(e)=>this.SubmitUserDetails(e)} Title="Sign Up Here...">
-             <GridContainer style={{height: '220px', overflow: 'auto'}}  >
-                 <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.nameSuccess}
-                     error={this.state.nameError}
-                     labelText={this.state.userDetails.name.placeholder}
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     id="name"
-                     elementType={this.state.userDetails.name.elementType}
-                     value={this.state.userDetails.name.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "name")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.name.type,
-                     }}
-                    /> 
-                  </GridItem>
+         <GridItem  xs={12} sm={5} md={5}>
+         <CardBody style={{background:"rgb(245, 245, 245)"}}>
+          <GridContainer style={{paddingBottom:"2%"}}>
+            <GridItem xs={3} sm={3} md={3} >
+              <p 
+                style={{
+                  fontSize:"17px",
+                  fontWeight:"650",
+                  paddingTop:"25%"
+                }}
+              >
+                Plan Details :
+              </p>
+            </GridItem>
+           <GridItem xs={9} sm={9} md={9}>
+           <CustomInput
+               id="plan"
+               formControlProps={{
+                 fullWidth: true,
+               }}
+               style={{background:"none"}}
+               elementType="input"
+               value={Package}
+               inputProps={{
+                 autoComplete:"off",
+                 readOnly: true,
+                 type:"text",
+               }}
+              /> 
+           </GridItem>
+          </GridContainer> 
+          <GridContainer  style={{paddingBottom:".5%"}}>
+            <GridItem xs={6} sm={5} md={5}>
+              <CustomInput
+                success={this.state.nameSuccess}
+                error={this.state.nameError}
+                formControlProps={{
+                  fullWidth: true,
+                }}
+                id="name"
+                labelText={this.state.userDetails.name.placeholder}
+                elementType={this.state.userDetails.name.elementType}
+                value={this.state.userDetails.name.value}
+                handleChange={(event) =>this.InputChangeHandler(event , "name")}
+                inputProps={{
+                  autoComplete:"off",
+                  readOnly: false,
+                  type:this.state.userDetails.name.type,
+                }}
+               /> 
+            </GridItem>
+            <GridItem xs={6} sm={7} md={7}>
+             <CustomInput
+               success={this.state.emailSuccess}
+               error={this.state.emailError}
+               formControlProps={{
+                 fullWidth: true,
+               }}
+               id="emailId"
+               labelText={this.state.userDetails.emailId.placeholder}
+               elementType={this.state.userDetails.emailId.elementType}
+               value={this.state.userDetails.emailId.value}
+               handleChange={(event) =>this.InputChangeHandler(event , "emailId")}
+               inputProps={{
+                 autoComplete:"off",
+                 readOnly: false,
+                 type:this.state.userDetails.emailId.type,
+               }}
+              /> 
+            </GridItem>
+          </GridContainer>
+          <GridContainer style={{paddingBottom:".5%"}}>
+          <GridItem xs={6} sm={4} md={8}>
+          <CustomInput
+            success={this.state.fatherNameSuccess}
+            error={this.state.fatherNameError}
+            id="fatherName"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            labelText={this.state.userDetails.fatherName.placeholder}
+            elementType={this.state.userDetails.fatherName.elementType}
+            value={this.state.userDetails.fatherName.value}
+            handleChange={(event) =>this.InputChangeHandler(event , "fatherName")}
+            inputProps={{
+              autoComplete:"off",
+              readOnly: false,
+              type:this.state.userDetails.fatherName.type,
+            }}
+           /> 
+         </GridItem>  
+         <GridItem xs={6} sm={4} md={4}>
+          <CustomInput
+            success={this.state.sexSuccess}
+            error={this.state.sexError}
+            id="sex"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            elementType={this.state.userDetails.sex.elementType}
+            value={this.state.userDetails.sex.value}
+            menuOptions={this.state.userDetails.sex.options}
+            handleChange={(event) =>this.InputChangeHandler(event , "sex")}
+            inputProps={{
+              autoComplete:"off",
+              readOnly: false,
+              type:this.state.userDetails.sex.type,
+            }}
+           /> 
+         </GridItem>
+       </GridContainer>
+       <GridContainer style={{paddingBottom:".5%"}}>
+          <GridItem xs={6} sm={4} md={4}>
+          <CustomInput
+            success={this.state.dateOfBirthSuccess}
+            error={this.state.dateOfBirthError}
+            id="dateOfBirth"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            labelText={this.state.userDetails.dateOfBirth.placeholder}
+            elementType={this.state.userDetails.dateOfBirth.elementType}
+            value={this.state.userDetails.dateOfBirth.value}
+            handleChange={(event) =>this.InputChangeHandler(event , "dateOfBirth")}
+            inputProps={{
+              autoComplete:"off",
+              readOnly: false,
+              type:this.state.userDetails.dateOfBirth.type,
+            }}
+           /> 
+         </GridItem>
+            <GridItem xs={6} sm={4} md={4}>
+             <CustomInput
+               id="workAs"
+               formControlProps={{
+                 fullWidth: true,
+               }}
+               elementType={this.state.userDetails.workAs.elementType}
+               selectPlaceholder={this.state.userDetails.workAs.SelectPlaceholder}
+               menuOptions={this.state.userDetails.workAs.options}
+               value={this.state.userDetails.workAs.value}
+               handleChange={(event) =>this.InputChangeHandler(event , "workAs")}
+               inputProps={{
+                 autoComplete:"off",
+                 readOnly: false,
+                 type:this.state.userDetails.workAs.type,
+               }}
+              /> 
+            </GridItem>
+            <GridItem xs={6} sm={4} md={4}>
+             <CustomInput
+               id="Standart"
+               formControlProps={{
+                 fullWidth: true,
+               }}
+               elementType={this.state.userDetails.Standart.elementType}
+               menuOptions={this.state.userDetails.Standart.options}
+               value={this.state.userDetails.Standart.value}
+               handleChange={(event) =>this.InputChangeHandler(event , "Standart")}
+               inputProps={{
+                 autoComplete:"off",
+                 readOnly: false,
+                 type:this.state.userDetails.Standart.type,
+               }}
+              /> 
+            </GridItem> 
+          </GridContainer>
+          <GridContainer style={{paddingBottom:".5%"}}>
+            <GridItem xs={6} sm={4} md={7}>
+             <CustomInput
+               success={this.state.SchoolNameSuccess}
+               error={this.state.SchoolNameError}                     
+               id="SchoolName"
+               formControlProps={{
+                 fullWidth: true,
+               }}
+               labelText={this.state.userDetails.SchoolName.placeholder}
+               elementType={this.state.userDetails.SchoolName.elementType}
+               value={this.state.userDetails.SchoolName.value}
+               handleChange={(event) =>this.InputChangeHandler(event , "SchoolName")}
+               inputProps={{
+                 autoComplete:"off",
+                 readOnly: false,
+                 type:this.state.userDetails.SchoolName.type,
+               }}
+              /> 
+            </GridItem>
+            <GridItem xs={6} sm={4} md={5}>
+             <CustomInput
+              success={this.state.mobileNoSuccess}
+              error={this.state.mobileNoError}
+               id="mobileNo"
+               formControlProps={{
+                 fullWidth: true,
+               }}
+               labelText={this.state.userDetails.mobileNo.placeholder}
+               elementType={this.state.userDetails.mobileNo.elementType}
+               value={this.state.userDetails.mobileNo.value}
+               handleChange={(event) =>this.InputChangeHandler(event , "mobileNo")}
+               inputProps={{
+                 autoComplete:"off",
+                 readOnly: false,
+                 type:this.state.userDetails.mobileNo.type,
+               }}
+              /> 
+            </GridItem>
+         </GridContainer>
+         <GridContainer>
+           <GridItem>
+             <p style={{
+                 textDecoration:"underline",
+                 fontSize:"18px",
+                 fontWeight:"650",
+                 paddingTop:"15%"
+                }}
+              >
+                Current Address:
+             </p>
+           </GridItem>
+         </GridContainer>
+         <GridContainer >
+         <GridItem xs={6} sm={4} md={7}>
+          <CustomInput
+            success={this.state.currentAddressSuccess}
+            error={this.state.currentAddressError}
+            id="currentAddress"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            labelText={this.state.userDetails.currentAddress.placeholder}
+            elementType={this.state.userDetails.currentAddress.elementType}
+            value={this.state.userDetails.currentAddress.value}
+            handleChange={(event) =>this.InputChangeHandler(event , "currentAddress")}
+            inputProps={{
+              autoComplete:"off",
+              readOnly: false,
+              type:this.state.userDetails.currentAddress.type,
+            }}
+           /> 
+         </GridItem>
+         <GridItem xs={6} sm={4} md={5}>
+          <CustomInput
+            success={this.state.landMarkSuccess}
+            error={this.state.landMarkError}
+            id="landMark"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            labelText={this.state.userDetails.landMark.placeholder}
+            elementType={this.state.userDetails.landMark.elementType}
+            value={this.state.userDetails.landMark.value}
+            handleChange={(event) =>this.InputChangeHandler(event , "landMark")}
+            inputProps={{
+              autoComplete:"off",
+              readOnly: false,
+              type:this.state.userDetails.landMark.type,
+            }}
+           /> 
+         </GridItem>
+       </GridContainer>
+       <GridContainer>   
+         <GridItem xs={6} sm={4} md={4}>
+          <CustomInput
+            success={this.state.postofficeSuccess}
+            error={this.state.postofficeError}
+            id="postoffice"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            labelText={this.state.userDetails.postoffice.placeholder}
+            elementType={this.state.userDetails.postoffice.elementType}
+            value={this.state.userDetails.postoffice.value}
+            handleChange={(event) =>this.InputChangeHandler(event , "postoffice")}
+            inputProps={{
+              autoComplete:"off",
+              readOnly: false,
+              type:this.state.userDetails.postoffice.type,
+            }}
+           /> 
+         </GridItem> 
+         <GridItem xs={6} sm={4} md={4}>
+          <CustomInput
+            success={this.state.districtSuccess}
+            error={this.state.districtError}
+            id="district"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            labelText={this.state.userDetails.district.placeholder}
+            elementType={this.state.userDetails.district.elementType}
+            value={this.state.userDetails.district.value}
+            handleChange={(event) =>this.InputChangeHandler(event , "district")}
+            inputProps={{
+              autoComplete:"off",
+              readOnly: false,
+              type:this.state.userDetails.district.type,
+            }}
+           /> 
+         </GridItem>
+         <GridItem xs={6} sm={4} md={4}>
+          <CustomInput
+            success={this.state.statesSuccess}
+            error={this.state.statesError}
+            id="states"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            labelText={this.state.userDetails.states.placeholder}
+            elementType={this.state.userDetails.states.elementType}
+            value={this.state.userDetails.states.value}
+            handleChange={(event) =>this.InputChangeHandler(event , "states")}
+            inputProps={{
+              autoComplete:"off",
+              readOnly: false,
+              type:this.state.userDetails.states.type,
+            }}
+           /> 
+         </GridItem>
+         <GridItem xs={6} sm={4} md={4}>
+          <CustomInput
+            success={this.state.pincodeSuccess}
+            error={this.state.pincodeError}
+            id="pincode"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            labelText={this.state.userDetails.pincode.placeholder}
+            elementType={this.state.userDetails.pincode.elementType}
+            value={this.state.userDetails.pincode.value}
+            handleChange={(event) =>this.InputChangeHandler(event , "pincode")}
+            inputProps={{
+              autoComplete:"off",
+              readOnly: false,
+              type:this.state.userDetails.pincode.type,
+            }}
+           /> 
+         </GridItem>
+       </GridContainer>
+       <GridContainer style={{paddingTop:"5%"}} >   
+         <GridItem xs={12} sm={12} md={4}>
+           <CustomInput
+             success={this.state.passwordSuccess}
+             error={this.state.passwordError}
+             labelText={this.state.userDetails.Password.placeholder}
+             id="Password"
+             formControlProps={{
+               fullWidth: true,
+             }}
+             elementType={this.state.userDetails.Password.elementType}
+             selectPlaceholder={this.state.userDetails.Password.SelectPlaceholder}
+             value={this.state.userDetails.Password.value}
+             handleChange={(event) =>this.InputChangeHandler(event , "Password")}
+             inputProps={{
+               autoComplete:"off",
+               readOnly: false,
+               type:this.state.userDetails.Password.type,
+             }}
+            /> 
+         </GridItem>
+           <GridItem  xs={12} sm={12} md={4}>
+             <CustomInput
+               success={this.state.confirmPasswordSuccess}
+               error={this.state.confirmPasswordError}
+               labelText={this.state.userDetails.ConfirmPassword.placeholder}
+               id="ConfirmPassword"
+               formControlProps={{
+                 fullWidth: true,
+               }}
+               elementType={this.state.userDetails.ConfirmPassword.elementType}
+               selectPlaceholder={this.state.userDetails.ConfirmPassword.SelectPlaceholder}
+               value={this.state.userDetails.ConfirmPassword.value}
+               handleChange={(event) =>this.InputChangeHandler(event , "ConfirmPassword")}
+               inputProps={{
+                 autoComplete:"off",
+                 readOnly: false,
+                 type:this.state.userDetails.ConfirmPassword.type,
+               }}
+              /> 
+           </GridItem>
+           <GridItem 
+             style={{paddingTop:"3%"}}
+             xs={12} sm={4} md={4} >
+             <CustomButton 
+             onClick = {(e)=>this.SubmitUserDetails(e)} 
+             >
+                 Submit
+             </CustomButton>
+           </GridItem>
+         </GridContainer>
+       </CardBody>
+       </GridItem>
+       </GridContainer>
+     </Card>
+    )
 
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.emailSuccess}
-                     error={this.state.emailError}
-                     labelText={this.state.userDetails.emailId.placeholder}
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     id="emailId"
-                     elementType={this.state.userDetails.emailId.elementType}
-                     value={this.state.userDetails.emailId.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "emailId")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.emailId.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     labelText={this.state.userDetails.workAs.placeholder}
-                     id="workAs"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.workAs.elementType}
-                     selectPlaceholder={this.state.userDetails.workAs.SelectPlaceholder}
-                     menuOptions={this.state.userDetails.workAs.options}
-                     value={this.state.userDetails.workAs.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "workAs")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.workAs.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     labelText={this.state.userDetails.Standart.placeholder}
-                     id="Standart"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.Standart.elementType}
-                     menuOptions={this.state.userDetails.Standart.options}
-                     value={this.state.userDetails.Standart.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "Standart")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.Standart.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                    success={this.state.SchoolNameSuccess}
-                    error={this.state.SchoolNameError}
-                     labelText={this.state.userDetails.SchoolName.placeholder}
-                     id="SchoolName"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.SchoolName.elementType}
-                     menuOptions={this.state.userDetails.SchoolName.options}
-                     value={this.state.userDetails.SchoolName.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "SchoolName")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.SchoolName.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                    success={this.state.mobileNoSuccess}
-                    error={this.state.mobileNoError}
-                     labelText={this.state.userDetails.mobileNo.placeholder}
-                     id="mobileNo"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.mobileNo.elementType}
-                     menuOptions={this.state.userDetails.mobileNo.options}
-                     value={this.state.userDetails.mobileNo.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "mobileNo")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.mobileNo.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.dateOfBirthSuccess}
-                     error={this.state.dateOfBirthError}
-                     labelText={this.state.userDetails.dateOfBirth.placeholder}
-                     id="dateOfBirth"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.dateOfBirth.elementType}
-                     menuOptions={this.state.userDetails.dateOfBirth.options}
-                     value={this.state.userDetails.dateOfBirth.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "dateOfBirth")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.dateOfBirth.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.sexSuccess}
-                     error={this.state.sexError}
-                     labelText={this.state.userDetails.sex.placeholder}
-                     id="sex"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.sex.elementType}
-                     menuOptions={this.state.userDetails.sex.options}
-                     value={this.state.userDetails.sex.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "sex")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.sex.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.fatherNameSuccess}
-                     error={this.state.fatherNameError}
-                     labelText={this.state.userDetails.fatherName.placeholder}
-                     id="fatherName"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.fatherName.elementType}
-                     menuOptions={this.state.userDetails.fatherName.options}
-                     value={this.state.userDetails.fatherName.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "fatherName")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.fatherName.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.currentAddressSuccess}
-                     error={this.state.currentAddressError}
-                     labelText={this.state.userDetails.currentAddress.placeholder}
-                     id="currentAddress"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.currentAddress.elementType}
-                     menuOptions={this.state.userDetails.currentAddress.options}
-                     value={this.state.userDetails.currentAddress.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "currentAddress")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.currentAddress.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.landMarkSuccess}
-                     error={this.state.landMarkError}
-                     labelText={this.state.userDetails.landMark.placeholder}
-                     id="landMark"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.landMark.elementType}
-                     menuOptions={this.state.userDetails.landMark.options}
-                     value={this.state.userDetails.landMark.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "landMark")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.landMark.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.postofficeSuccess}
-                     error={this.state.postofficeError}
-                     labelText={this.state.userDetails.postoffice.placeholder}
-                     id="postoffice"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.postoffice.elementType}
-                     menuOptions={this.state.userDetails.postoffice.options}
-                     value={this.state.userDetails.postoffice.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "postoffice")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.postoffice.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.districtSuccess}
-                     error={this.state.districtError}
-                     labelText={this.state.userDetails.district.placeholder}
-                     id="district"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.district.elementType}
-                     menuOptions={this.state.userDetails.district.options}
-                     value={this.state.userDetails.district.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "district")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.district.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.pincodeSuccess}
-                     error={this.state.pincodeError}
-                     labelText={this.state.userDetails.pincode.placeholder}
-                     id="pincode"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.pincode.elementType}
-                     menuOptions={this.state.userDetails.pincode.options}
-                     value={this.state.userDetails.pincode.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "pincode")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.pincode.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.statesSuccess}
-                     error={this.state.statesError}
-                     labelText={this.state.userDetails.states.placeholder}
-                     id="states"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.states.elementType}
-                     menuOptions={this.state.userDetails.states.options}
-                     value={this.state.userDetails.states.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "states")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.states.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-
-                  <GridItem xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.passwordSuccess}
-                     error={this.state.passwordError}
-                     labelText={this.state.userDetails.Password.placeholder}
-                     id="Password"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.Password.elementType}
-                     selectPlaceholder={this.state.userDetails.Password.SelectPlaceholder}
-                     value={this.state.userDetails.Password.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "Password")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.Password.type,
-                     }}
-                    /> 
-                  </GridItem>
-
-                  <GridItem  xs={12} sm={12} md={12}>
-                   <CustomInput
-                     success={this.state.confirmPasswordSuccess}
-                     error={this.state.confirmPasswordError}
-                     labelText={this.state.userDetails.ConfirmPassword.placeholder}
-                     id="ConfirmPassword"
-                     formControlProps={{
-                       fullWidth: true,
-                     }}
-                     elementType={this.state.userDetails.ConfirmPassword.elementType}
-                     selectPlaceholder={this.state.userDetails.ConfirmPassword.SelectPlaceholder}
-                     value={this.state.userDetails.ConfirmPassword.value}
-                     handleChange={(event) =>this.InputChangeHandler(event , "ConfirmPassword")}
-                     inputProps={{
-                       autoComplete:"off",
-                       readOnly: false,
-                       type:this.state.userDetails.ConfirmPassword.type,
-                     }}
-                    /> 
-                  </GridItem>
-             </GridContainer>
-            </SignUpForm>
-        </GridItem>
-        </GridContainer>
-      )
-
-
-
-  //background-coloe : #b366ff
+  //background-coloe : #b366ffs
   let redirectToHomePage = null;
   if(this.props.isAuthenticated){
     console.log("Authenticated..");
@@ -967,8 +1011,8 @@ class SignUpComponent extends Component{
   }
   return (
     <div style={{backgroundColor:"#dbdad5", width:"100%", padding:'.5% 0'}}>
-       {form}
-       {redirectToHomePage}
+      {form}
+      {redirectToHomePage}
     </div>
   );
 

@@ -1,4 +1,4 @@
-import React , { Component }  from 'react';
+import React, { useState }  from 'react';
 import { createBrowserHistory } from "history";
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -13,23 +13,25 @@ import GridItem from '../../../ComponentsMaterialUi/Grid/GridItem.jsx';
 import Button from '../../../ComponentsMaterialUi/CustomButtons/Button.jsx';
 import CustomInput from '../../../ComponentsMaterialUi/CustomInput/CustomInput.jsx';
 import userUpdateProfile from "../../../assets/jss/material-dashboard-react/components/ProfileStyle.jsx";
-
+import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
+import axios from "../../../hoc/Axious/Axious";
 const history = createBrowserHistory({forceRefresh: true});
 
-class UpdateStudentDetails extends Component{ 
-  state = { 
+const UpdateStudentDetails = ( props )=>{
+ 
+  const [initialState , setInitialState] = useState({ 
    userDetails:{
       name:{
         elementType:'input',
         type:'text',
         placeholder:'Enter Your Full Name', 
-        value:this.props.UserProfileId.userData.name
+        value:props.UserProfileId.userData.name
       },
       emailId:{
        elementType:'input',
        type:'email',
        placeholder:'Enter Your e-mail Id',
-       value:this.props.UserProfileId.userData.emailId
+       value:props.UserProfileId.userData.emailId
       },
       workAs:{
         elementType:'select',
@@ -39,19 +41,19 @@ class UpdateStudentDetails extends Component{
          { value:"Principal", displayValue:"Principal" },
          { value:"Others", displayValue:"Others" }
         ],
-        value:this.props.UserProfileId.userData.workAs        
+        value:props.UserProfileId.userData.workAs        
       },
       class:{
        elementType:'input',
        type:'text',
        placeholder:'Class (if not a principal)',
-       value:this.props.UserProfileId.userData.class
+       value:props.UserProfileId.userData.class
       },
       SchoolName:{
        elementType:'input',
        type:'text',
        placeholder:"Enter your School's Name",
-       value:this.props.UserProfileId.userData.SchoolName
+       value:props.UserProfileId.userData.SchoolName
       },
       Password:{
         elementType:'input',
@@ -63,13 +65,13 @@ class UpdateStudentDetails extends Component{
        elementType:'input',
        type:'number',
        placeholder:'Enter Your Contact Number',
-       value:this.props.UserProfileId.userData.mobileNo
+       value:props.UserProfileId.userData.mobileNo
       },
       dateOfBirth:{
        elementType:'input',
        type:'date',
        placeholder:'Enter Your Death Of Birth',
-       value:this.props.UserProfileId.userData.dateOfBirth
+       value:props.UserProfileId.userData.dateOfBirth
       },
       sex:{
         elementType:'select',
@@ -78,49 +80,49 @@ class UpdateStudentDetails extends Component{
           { value:"Female", displayValue:"Female" },
           {value:"Other",displayValue:"Others"}
         ],
-        value:this.props.UserProfileId.userData.sex
+        value:props.UserProfileId.userData.sex
       },
       fatherName:{
         elementType:'input',
         type:'text',
         placeholder:"Enter Your Father's Name",
-        value:this.props.UserProfileId.userData.fatherName
+        value:props.UserProfileId.userData.fatherName
       },
       currentAddress:{
         elementType:'input',
         type:'text',
         placeholder:'Enter Your Current Address',
-        value:this.props.UserProfileId.userData.currentAddress
+        value:props.UserProfileId.userData.currentAddress
       },
       landMark:{
         elementType:'input',
         type:'text',
         placeholder:'Enter Your Near By Land Mark',
-        value:this.props.UserProfileId.userData.landMark
+        value:props.UserProfileId.userData.landMark
       },
       postoffice:{
         elementType:'input',
         type:'text',
         placeholder:'Post Office',
-        value:this.props.UserProfileId.userData.postoffice
+        value:props.UserProfileId.userData.postoffice
       },
       district:{
         elementType:'input',
         type:'text',
         placeholder:'District',
-        value:this.props.UserProfileId.userData.district
+        value:props.UserProfileId.userData.district
       },
       pincode:{
         elementType:'input',
         type:'text',
         placeholder:'Pincode',
-        value:this.props.UserProfileId.userData.pincode
+        value:props.UserProfileId.userData.pincode
       },
       states:{
         elementType:'input',
         type:'text',
         placeholder:'State' ,
-        value:this.props.UserProfileId.userData.states
+        value:props.UserProfileId.userData.states
       }  
     },
     passwordSuccess:false,
@@ -143,48 +145,52 @@ class UpdateStudentDetails extends Component{
     pincodeError:false,
     statesSuccess:false,
     statesError:false,
-  };
+  });
 
-  UpdatedInputChangehandler = (event, inputIdentifier ) =>{
-    event.preventDefault();
+ const UpdatedInputChangehandler = (event , inputIdentifier ) =>{
+
     const CopyOfUserDetails = {
-      ...this.state.userDetails
+      ...initialState.userDetails
     } 
+    
     const UpdatedUserDetails = {
       ...CopyOfUserDetails[inputIdentifier]
     };
-    console.log(UpdatedUserDetails.value);
+    console.log(CopyOfUserDetails);
+    console.log(inputIdentifier)
+    console.log(CopyOfUserDetails[inputIdentifier])
     UpdatedUserDetails.value = event.target.value;
     console.log(UpdatedUserDetails.value);
     CopyOfUserDetails[inputIdentifier] = UpdatedUserDetails;
-    this.setState({userDetails:CopyOfUserDetails});
+    console.log(CopyOfUserDetails);
+     setInitialState({userDetails:CopyOfUserDetails});
+     console.log(initialState)
    }
      
- SubmitUpdatedUserDetails = ( ) => {
-   const Plan = this.props.UserProfileId.userData.PlanName;
+ const SubmitUpdatedUserDetails = ( ) => {
+   const Plan =props.UserProfileId.userData.PlanName;
    const updatedUserDetails = {
      PlanName:Plan,
-     name:this.state.userDetails.name.value,
-     emailId:this.state.userDetails.emailId.value,
-     workAs:this.state.userDetails.workAs.value,
-     class:this.state.userDetails.class.value,
-     SchoolName:this.state.userDetails.SchoolName.value,
-     mobileNo:this.state.userDetails.mobileNo.value,
-     dateOfBirth:this.state.userDetails.dateOfBirth.value,
-     sex:this.state.userDetails.sex.value,
-     fatherName:this.state.userDetails.fatherName.value,
-     currentAddress:this.state.userDetails.currentAddress.value,
-     landMark:this.state.userDetails.landMark.value,
-     postoffice:this.state.userDetails.postoffice.value,
-     district:this.state.userDetails.district.value,
-     pincode:this.state.userDetails.pincode.value,
-     states:this.state.userDetails.states.value,
+     name:initialState.userDetails.name.value,
+     emailId:initialState.userDetails.emailId.value,
+     workAs:initialState.userDetails.workAs.value,
+     class:initialState.userDetails.class.value,
+     SchoolName:initialState.userDetails.SchoolName.value,
+     mobileNo:initialState.userDetails.mobileNo.value,
+     dateOfBirth:initialState.userDetails.dateOfBirth.value,
+     sex:initialState.userDetails.sex.value,
+     fatherName:initialState.userDetails.fatherName.value,
+     currentAddress:initialState.userDetails.currentAddress.value,
+     landMark:initialState.userDetails.landMark.value,
+     postoffice:initialState.userDetails.postoffice.value,
+     district:initialState.userDetails.district.value,
+     pincode:initialState.userDetails.pincode.value,
+     states:initialState.userDetails.states.value,
    }
-    this.props.SendUpdatedData(updatedUserDetails,this.props.UserProfileId.id,this.props.tokenId,this.props.userId);
-    this.props.BlackDrop();  
+    props.SendUpdatedData(updatedUserDetails,props.UserProfileId.id,props.tokenId,props.userId);
+    props.BlackDrop();  
   };
- 
-  render(){
+
     let form =(
       <Card style={{width:"100%" , margin:"0%",borderRadius:".8em .8em .5em .5em"}}>
         <CardHeader 
@@ -208,228 +214,216 @@ class UpdateStudentDetails extends Component{
           >
          <GridItem xs={12} sm={12} md={12}>
            <CustomInput
-             success={this.state.passwordSuccess}
-             error={this.state.passwordError}
-             labelText={this.state.userDetails.Password.placeholder}
+             success={initialState.passwordSuccess}
+             error={initialState.passwordError}
+             labelText={initialState.userDetails.Password.placeholder}
              id="Password"
              formControlProps={{
                fullWidth: true,
              }}
-             elementType={this.state.userDetails.Password.elementType}
-             selectPlaceholder={this.state.userDetails.Password.SelectPlaceholder}
-             value={this.state.userDetails.Password.value}
-             handleChange={(event) =>this.UpdatedInputChangehandler(event , "Password")}
+             elementType={initialState.userDetails.Password.elementType}
+             selectPlaceholder={initialState.userDetails.Password.SelectPlaceholder}
+             value={initialState.userDetails.Password.value}
+             handleChange={(event)=>UpdatedInputChangehandler(event,"Password")}
              inputProps={{
                autoComplete:"off",
                readOnly: false,
-               type:this.state.userDetails.Password.type,
+               type:initialState.userDetails.Password.type,
              }}
             /> 
          </GridItem>
          <GridItem xs={12} sm={12} md={12}>
            <CustomInput
-             success={this.state.SchoolNameSuccess}
-             error={this.state.SchoolNameError}
-             labelText={this.state.userDetails.SchoolName.placeholder}
+             success={initialState.SchoolNameSuccess}
+             error={initialState.SchoolNameError}
+             labelText={initialState.userDetails.SchoolName.placeholder}
              formControlProps={{
                fullWidth: true,
              }}
              id="SchoolName"
-             elementType={this.state.userDetails.SchoolName.elementType}
-             value={this.state.userDetails.SchoolName.value}
-             handleChange={(event) =>this.UpdatedInputChangehandler(event , "SchoolName")}
+             elementType={initialState.userDetails.SchoolName.elementType}
+             value={initialState.userDetails.SchoolName.value}
+             handleChange={(event)=>UpdatedInputChangehandler(event,"SchoolName")}
              inputProps={{
                autoComplete:"off",
                readOnly: false,
-               type:this.state.userDetails.SchoolName.type,
+               type:initialState.userDetails.SchoolName.type,
              }}
             /> 
          </GridItem>
          <GridItem xs={12} sm={12} md={12}>
           <CustomInput
-            labelText={this.state.userDetails.sex.placeholder}
+            labelText={initialState.userDetails.sex.placeholder}
             id="sex"
             formControlProps={{
               fullWidth: true,
             }}
-            elementType={this.state.userDetails.sex.elementType}
-            selectPlaceholder={this.state.userDetails.sex.SelectPlaceholder}
-            menuOptions={this.state.userDetails.sex.options}
-            value={this.state.userDetails.sex.value}
-            handleChange={(event) =>this.UpdatedInputChangehandler(event , "sex")}
+            elementType={initialState.userDetails.sex.elementType}
+            selectPlaceholder={initialState.userDetails.sex.SelectPlaceholder}
+            menuOptions={initialState.userDetails.sex.options}
+            value={initialState.userDetails.sex.value}
+            handleChange={(event)=>UpdatedInputChangehandler(event,"sex")}
             inputProps={{
               autoComplete:"off",
               readOnly: false,
-              type:this.state.userDetails.sex.type,
+              type:initialState.userDetails.sex.type,
             }}
            /> 
          </GridItem>
          <GridItem xs={12} sm={12} md={12}>
           <CustomInput
-            success={this.state.mobileNoSuccess}
-            error={this.state.mobileNoError}
-            labelText={this.state.userDetails.mobileNo.placeholder}
+            success={initialState.mobileNoSuccess}
+            error={initialState.mobileNoError}
+            labelText={initialState.userDetails.mobileNo.placeholder}
             id="mobileNo"
             formControlProps={{
               fullWidth: true,
             }}
-            elementType={this.state.userDetails.mobileNo.elementType}
-            selectPlaceholder={this.state.userDetails.mobileNo.SelectPlaceholder}
-            value={this.state.userDetails.mobileNo.value}
-            handleChange={(event) =>this.UpdatedInputChangehandler(event , "mobileNo")}
+            elementType={initialState.userDetails.mobileNo.elementType}
+            selectPlaceholder={initialState.userDetails.mobileNo.SelectPlaceholder}
+            value={initialState.userDetails.mobileNo.value}
+            handleChange={(event)=>UpdatedInputChangehandler(event,"mobileNo")}
             inputProps={{
               autoComplete:"off",
               readOnly: false,
-              type:this.state.userDetails.mobileNo.type,
+              type:initialState.userDetails.mobileNo.type,
             }}
            /> 
          </GridItem>              
          <GridItem  xs={12} sm={12} md={12}>
           <CustomInput
-            success={this.state.currentAddressSuccess}
-            error={this.state.currentAddressError}
-            labelText={this.state.userDetails.currentAddress.placeholder}
+            success={initialState.currentAddressSuccess}
+            error={initialState.currentAddressError}
+            labelText={initialState.userDetails.currentAddress.placeholder}
             id="currentAddress"
             formControlProps={{
               fullWidth: true,
             }}
-            elementType={this.state.userDetails.currentAddress.elementType}
-            selectPlaceholder={this.state.userDetails.currentAddress.SelectPlaceholder}
-            value={this.state.userDetails.currentAddress.value}
-            handleChange={(event) =>this.UpdatedInputChangehandler(event , "currentAddress")}
+            elementType={initialState.userDetails.currentAddress.elementType}
+            selectPlaceholder={initialState.userDetails.currentAddress.SelectPlaceholder}
+            value={initialState.userDetails.currentAddress.value}
+            handleChange={(event)=>UpdatedInputChangehandler(event, "currentAddress")}
             inputProps={{
               autoComplete:"off",
               readOnly: false,
-              type:this.state.userDetails.currentAddress.type,
+              type:initialState.userDetails.currentAddress.type,
             }}
            /> 
          </GridItem>
          <GridItem  xs={12} sm={12} md={12}>
            <CustomInput
-             success={this.state.landMarkSuccess}
-             error={this.state.landMarkError}
-             labelText={this.state.userDetails.landMark.placeholder}
+             success={initialState.landMarkSuccess}
+             error={initialState.landMarkError}
+             labelText={initialState.userDetails.landMark.placeholder}
              id="landMark"
              formControlProps={{
                fullWidth: true,
              }}
-             elementType={this.state.userDetails.landMark.elementType}
-             selectPlaceholder={this.state.userDetails.landMark.SelectPlaceholder}
-             value={this.state.userDetails.landMark.value}
-             handleChange={(event) =>this.UpdatedInputChangehandler(event , "landMark")}
+             elementType={initialState.userDetails.landMark.elementType}
+             selectPlaceholder={initialState.userDetails.landMark.SelectPlaceholder}
+             value={initialState.userDetails.landMark.value}
+             handleChange={(event)=>UpdatedInputChangehandler(event,"landMark")}
              inputProps={{
                autoComplete:"off",
                readOnly: false,
-               type:this.state.userDetails.landMark.type,
+               type:initialState.userDetails.landMark.type,
              }}
            /> 
          </GridItem>
          <GridItem  xs={12} sm={12} md={12}>
            <CustomInput
-             success={this.state.postofficeSuccess}
-             error={this.state.postofficeError}
-             labelText={this.state.userDetails.postoffice.placeholder}
+             success={initialState.postofficeSuccess}
+             error={initialState.postofficeError}
+             labelText={initialState.userDetails.postoffice.placeholder}
              id="postoffice"
              formControlProps={{
                fullWidth: true,
              }}
-             elementType={this.state.userDetails.postoffice.elementType}
-             selectPlaceholder={this.state.userDetails.postoffice.SelectPlaceholder}
-             value={this.state.userDetails.postoffice.value}
-             handleChange={(event) =>this.UpdatedInputChangehandler(event , "postoffice")}
+             elementType={initialState.userDetails.postoffice.elementType}
+             selectPlaceholder={initialState.userDetails.postoffice.SelectPlaceholder}
+             value={initialState.userDetails.postoffice.value}
+             handleChange={(event)=>UpdatedInputChangehandler(event,"postoffice")}
              inputProps={{
                autoComplete:"off",
                readOnly: false,
-               type:this.state.userDetails.postoffice.type,
+               type:initialState.userDetails.postoffice.type,
              }}
            /> 
          </GridItem>
          <GridItem  xs={12} sm={12} md={12}>
            <CustomInput
-             success={this.state.districtSuccess}
-             error={this.state.districtError}
-             labelText={this.state.userDetails.district.placeholder}
+             success={initialState.districtSuccess}
+             error={initialState.districtError}
+             labelText={initialState.userDetails.district.placeholder}
              id="district"
              formControlProps={{
                fullWidth: true,
              }}
-             elementType={this.state.userDetails.district.elementType}
-             selectPlaceholder={this.state.userDetails.district.SelectPlaceholder}
-             value={this.state.userDetails.district.value}
-             handleChange={(event) =>this.UpdatedInputChangehandler(event , "district")}
+             elementType={initialState.userDetails.district.elementType}
+             selectPlaceholder={initialState.userDetails.district.SelectPlaceholder}
+             value={initialState.userDetails.district.value}
+             handleChange={(event)=>UpdatedInputChangehandler(event,"district")}
              inputProps={{
                autoComplete:"off",
                readOnly: false,
-               type:this.state.userDetails.district.type,
+               type:initialState.userDetails.district.type,
              }}
            /> 
          </GridItem>
          <GridItem  xs={12} sm={12} md={12}>
            <CustomInput
-             success={this.state.pincodeSuccess}
-             error={this.state.pincodeError}
-             labelText={this.state.userDetails.pincode.placeholder}
+             success={initialState.pincodeSuccess}
+             error={initialState.pincodeError}
+             labelText={initialState.userDetails.pincode.placeholder}
              id="pincode"
              formControlProps={{
                fullWidth: true,
              }}
-             elementType={this.state.userDetails.pincode.elementType}
-             selectPlaceholder={this.state.userDetails.pincode.SelectPlaceholder}
-             value={this.state.userDetails.pincode.value}
-             handleChange={(event) =>this.UpdatedInputChangehandler(event , "pincode")}
+             elementType={initialState.userDetails.pincode.elementType}
+             selectPlaceholder={initialState.userDetails.pincode.SelectPlaceholder}
+             value={initialState.userDetails.pincode.value}
+             handleChange={(event)=>UpdatedInputChangehandler(event,"pincode")}
              inputProps={{
                autoComplete:"off",
                readOnly: false,
-               type:this.state.userDetails.pincode.type,
+               type:initialState.userDetails.pincode.type,
              }}
            /> 
          </GridItem>
          <GridItem  xs={12} sm={12} md={12}>
            <CustomInput
-             success={this.state.statesSuccess}
-             error={this.state.statesError}
-             labelText={this.state.userDetails.states.placeholder}
+             success={initialState.statesSuccess}
+             error={initialState.statesError}
+             labelText={initialState.userDetails.states.placeholder}
              id="states"
              formControlProps={{
                fullWidth: true,
              }}
-             elementType={this.state.userDetails.states.elementType}
-             selectPlaceholder={this.state.userDetails.states.SelectPlaceholder}
-             value={this.state.userDetails.states.value}
-             handleChange={(event) =>this.UpdatedInputChangehandler(event , "states")}
+             elementType={initialState.userDetails.states.elementType}
+             selectPlaceholder={initialState.userDetails.states.SelectPlaceholder}
+             value={initialState.userDetails.states.value}
+             handleChange={(event)=>UpdatedInputChangehandler(event,"states")}
              inputProps={{
                autoComplete:"off",
                readOnly: false,
-               type:this.state.userDetails.states.type,
+               type:initialState.userDetails.states.type,
              }}
            /> 
          </GridItem>
        </GridContainer>
      </CardBody>
      <CardFooter>
-     <Button style={{padding:"3% 0 0 0",marginTop:'0%'}} onClick={this.SubmitUpdatedUserDetails} >Submit</Button> 
+     <Button style={{padding:"3% 0 0 0",marginTop:'0%'}} onClick={SubmitUpdatedUserDetails} >Submit</Button> 
      </CardFooter>      
    </Card>  
   );
+  console.log(initialState)
   return (
-      <div> 
-        {form}      
-      </div>
-    );
-  }  
+    <div> 
+         {form}
+    </div>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return{
-    UserProfileId:state.Profile.userDetails,
-    tokenId : state.Auth.token,
-    userId:state.Auth.userId
-  }
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return{
-    SendUpdatedData : (userUpdatedData,ProfileId,Token,userId) => dispatch(action.UpdateUserProfile(userUpdatedData,ProfileId,Token,userId))
-  }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(userUpdateProfile)(UpdateStudentDetails));
+export default withStyles(userUpdateProfile)(withErrorHandler(UpdateStudentDetails,axios));

@@ -11,7 +11,7 @@ import {
 const buttonStyle = {
   button: {
     minHeight: "auto",
-    minWidth: "100%",
+    width: "100%",
     backgroundColor: "rgb(138, 153, 168)",
     color: "#2745ba",
     boxShadow:
@@ -212,6 +212,19 @@ const buttonStyle = {
       boxShadow: "none"
     }
   },
+  selectForm:{
+    margin:"0",
+    borderRadius:"none",
+    background:"#d9d9d9",
+    borderBottom:"1px solid gray",
+    "&:hover": {
+       background:"#b3b3b3",
+       color:"black",
+       fontSize:"15px",
+       fontWeight:"500"
+     }
+  }
+  ,
   justIcon: {
     paddingLeft: "5px",
     paddingRight: "5px",

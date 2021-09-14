@@ -11,7 +11,7 @@ import {
 
 const headerStyle = theme => ({
   appBar: {
-    backgroundColor: "#acacca",        //"#c7c6c3",
+    backgroundColor: "rgb(166, 166, 166)",        //"#c7c6c3",
     boxShadow: "none",
     borderBottom: "0",
     marginBottom: "0",

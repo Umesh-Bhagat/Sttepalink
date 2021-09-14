@@ -1,6 +1,8 @@
 import React , { Component } from 'react';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
+import axios from "../../../hoc/Axious/Axious";
+import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 
 import EditProfileForm from '../UpdateUser/UpdateUser';
 import Modal from '../../../ComponentsMaterialUi/Modal/Modal';
@@ -8,6 +10,7 @@ import ProfileForm from '../ProfileForm/ProfileForm.jsx';
 import GridContainer from '../../../ComponentsMaterialUi/Grid/GridContainer';
 import GridItem from "../../../ComponentsMaterialUi/Grid/GridContainer.jsx";
 import * as actions from "../../../Store/actions/index";
+import Spinner from "../../../ComponentsMaterialUi/Spinner/Spinner";
 import ProfileStyle from "../../../assets/jss/material-dashboard-react/components/ProfileStyle.jsx";
 
 class UserProfile extends Component {
@@ -25,10 +28,7 @@ class UserProfile extends Component {
    this.props.GetUserProfile(this.props.userId,this.props.tokenId);
    }
 
-   ToggleUserEditForm=()=>{
-    this.setState({ProfileUpdateToggle:!this.state.ProfileUpdateToggle});
-   }
-
+  
    userProfileUpdates= ( ) =>{
        this.setState({ProfileUpdateToggle:!this.state.ProfileUpdateToggle});
    }
@@ -37,17 +37,22 @@ class UserProfile extends Component {
 
    render(){
       const { classes, ...rest } = this.props;
- 
+
       let EditProfile=this.state.ProfileUpdateToggle?(
         <Modal 
           show={this.state.ProfileUpdateToggle} 
           title="Update Your Profile" 
           left="42%"
           right="25%"
-          BlackDrop={this.ToggleUserEditForm}
+          top="10%"
+          BlackDrop={this.userProfileUpdates}
          >
-           <EditProfileForm  
-           BlackDrop={this.ToggleUserEditForm}
+           <EditProfileForm
+           UserProfileId={this.props.userDetail}
+           userId={this.props.userId}
+           tokenId={this.props.tokenId}
+           SendUpdatedData={this.props.SendUpdatedData}
+           BlackDrop={this.userProfileUpdates}
            />
         </Modal>
      ):null;
@@ -77,14 +82,13 @@ class UserProfile extends Component {
                />
            </GridItem>
          </GridContainer>
-      ):null;
+      ):null;    //do check null here .. what sould be here in place of it..
+     
+      if(this.props.loader){
+         Profilecontainer = <Spinner/>
+      }
 
-     // <div>
-     // <Headder HeadderForm="container2" check={true}/>
-     // </div> 
-      
     return (
-       // headder should be here
           <div className={classes.ProfileGril}>
                {Profilecontainer}
                {EditProfile}
@@ -92,17 +96,21 @@ class UserProfile extends Component {
       );
    }
 }
+
+ 
 const mapStatetoProps = (state) =>{
    return{
     userId  : state.Auth.userId,
     tokenId : state.Auth.token,
-    userDetail:state.Profile.userDetails
+    userDetail:state.Profile.userDetails,
+    loader :state.Profile.loading
    }
 }
 
 const mapDispatchToProps = (dispatch) => {
    return{
-      GetUserProfile : ( userId , token) => dispatch(actions.getProfile(userId , token))
+      GetUserProfile : ( userId , token) => dispatch(actions.getProfile(userId , token)),
+      SendUpdatedData : (userUpdatedData,ProfileId,Token,userId) => dispatch(actions.UpdateUserProfile(userUpdatedData,ProfileId,Token,userId))
    }
 }
-export default connect(mapStatetoProps,mapDispatchToProps)(withStyles(ProfileStyle)(UserProfile));
+export default connect(mapStatetoProps,mapDispatchToProps)(withStyles(ProfileStyle)(withErrorHandler(UserProfile,axios)));

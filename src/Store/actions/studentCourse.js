@@ -34,7 +34,6 @@ export const studentCourseFail = ( error ) =>{
 
 
 export const chapterDisplayProcessStart = ( ) => {
-  console.log("DisplayProcessStart..")
   return{
       type:action.GET_SELECTED_CHAPTERS_START
   };
@@ -107,10 +106,8 @@ export const getStudentCourse = (userId ,tokenId ) =>{
 export const DisplayAvailableChapters = (tokenId,Class , Subject) => {
   return dispatch =>{
     dispatch(chapterDisplayProcessStart());
-    console.log(tokenId,Class, Subject);
     axios.get('/Subjects/'+Class+"/"+Subject+'.json?auth='+ tokenId)
     .then(res=> {
-      console.log(res.data)
       const SubjectGot=[];
       for(let key in res.data){
          SubjectGot.push({

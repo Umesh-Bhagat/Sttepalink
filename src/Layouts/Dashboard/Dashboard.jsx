@@ -51,7 +51,7 @@ render() {
   const { classes, ...rest } = this.props;
 
   let switchRout = this.props.isAuthenticate?(
-   <div className={classes.container}>{switchRoutes}</div>
+   <div /*className={classes.container}*/>{switchRoutes}</div>
   ):(<Redirect to="/"/>)
  
   return (
@@ -76,7 +76,6 @@ render() {
        <div className={classes.content}>
         {switchRout}
        </div>
-        <Footer />
       </div>
     </div>
   );

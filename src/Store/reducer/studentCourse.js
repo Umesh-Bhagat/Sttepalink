@@ -5,6 +5,8 @@ const initialState = {
     userCourseDetails:null,
     ChapterList:null,
     topicsList:null,
+    Clas:null,
+    Subj:null,
     Class:null,
     Subject:null,
     error:null,
@@ -19,8 +21,11 @@ const studentCoursesProcessStart = ( state , action) => {
 }
 
 const studentCoursesProcessSuccess = ( state , action ) => {
+    console.log(action.userCourseDetails.Class,action.userCourseDetails.Subject)
     return updateObject(state , {
-        userCourseDetails:action.userCourseDetails,
+        userCourseDetails:action.userCourseDetails.array,
+        Clas:action.userCourseDetails.Class,
+        Subj:action.userCourseDetails.Subject,
         error:null,
         loader:null
     });

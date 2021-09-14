@@ -8,11 +8,11 @@ import SignUp from "../Layouts/SignUp/SignUp.jsx";
 import LogOut from "../Layouts/LogOut/LogOut.jsx";
 
 const indexRoutes = [
-    { path: "/dashboard", component: Dashboard },
+    {path: "/dashboard", component: Dashboard},
     {path: "/PricingPackage" , component : Pricing},
     {path: "/YourCourses" , component : Dashboard},
     {path: "/UserProfile", component: Dashboard},
-    {path: "/Home", component: Dashboard},
+    {path: "/Info-page", component: Dashboard},
     {path: "/PricingPlan", component: Dashboard},
     {path: "/Notification", component: Dashboard},
     {path: "/OtherThings", component: Dashboard},
@@ -21,7 +21,7 @@ const indexRoutes = [
     {path: "/AboutUs" , component: AboutUs},
     {path : "/Offers" , component: OffersPage},
     {path: "/signUp", component: SignUp},
-    { path: "/LogOut",component:LogOut}
+    {path: "/LogOut",component:LogOut}
 ];
 
 
