@@ -1,6 +1,7 @@
-import React from "react";
+import React,{useReducer} from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import InputsIcons from "../icons/icons.jsx";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import FormControl from "@material-ui/core/FormControl";
@@ -20,22 +21,36 @@ function CustomInput({ ...props }) {
   const {
     classes,
     formControlProps,
+    VisibleIconName,
+    NotVisibleIconName,
     labelText,
     handleChange,
     selectForm,
     style,
     elementType,
     selectPlaceholder,
+    placeholder,
+    inputChangeHandler,
     className,
     menuOptions,
     id,
+    IconName,
     labelProps,
     inputProps,
     error,
     success,
     value,
-    onChange
+    valid,
+    finalValue,
+    onChange,
+    ...rest
   } = props;
+
+  // const [initialState , dispatch] = useReducer(
+  //   customInputReducer,{
+  //     value:""
+  //   }
+  // );
 
   const [open, setOpen] = React.useState(false);
 
@@ -101,8 +116,63 @@ function CustomInput({ ...props }) {
         <Check className={classes.feedback + " " + classes.labelRootSuccess} />
       ) : null}
     </FormControl>
-    
      break;
+
+     case "inputWithIcon" :
+      return(
+        <div>
+          {!valid && finalValue?(
+          <p className={classes.errMegStyl}>
+            Please enter your valid {placeholder}
+          </p>):null}
+          <div 
+          className={!valid && finalValue?classes.notValid:classes.inputBorder}
+          >
+           <input  
+           className={classes.inputStyle}
+           type={elementType}
+           placeholder={placeholder}
+           {...rest}
+            onChange={inputChangeHandler}
+           />
+           <InputsIcons IconType={IconName}/>       
+         </div>
+        </div>
+      )
+
+      case "password" :
+        return(
+         <div>
+           {!valid  && finalValue ?(
+           <p className={classes.errMegStyl}>
+             Please enter your 6 digit valid {placeholder}
+           </p>):null
+            }
+           <div 
+             className={!valid && finalValue?classes.notValid:classes.inputBorder}
+            >
+              <input  
+              className={classes.inputStyle}
+            //  type={initialInputState.PasswordVisible?"text":"password"}
+              placeholder={placeholder}
+              {...rest}
+              onChange={inputChangeHandler}
+              />
+              <div 
+              style={{
+                width:"40px",
+                paddingTop:"10px",
+              }}
+            //  onClick={ToggleVisivilityIcon}
+              >
+                {/* initialInputState.PasswordVisible*/true?( 
+                   <InputsIcons IconType={VisibleIconName}/>
+                  ):(<InputsIcons IconType={NotVisibleIconName}/>)
+                }
+              </div>      
+           </div>
+         </div>
+        )
     
      case ('textarea'):
       inputElement = (
@@ -144,7 +214,7 @@ function CustomInput({ ...props }) {
        <MenuItem 
          key={menuItems.value}
          value={menuItems.value}
-        
+         name={id}
        >
         {menuItems.value}
        </MenuItem>

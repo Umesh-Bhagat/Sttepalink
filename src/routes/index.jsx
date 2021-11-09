@@ -5,11 +5,12 @@ import OfficialAccounts from "../Views/AuthorisedSection/AuthorisedSection.jsx";
 import AboutUs from "../Layouts/AboutUs/AboutUs.jsx";
 import OffersPage from "../Layouts/OffersPage/OffersPage.jsx";
 import SignUp from "../Layouts/SignUp/SignUp.jsx";
+import login from "../Layouts/LoginPage/LoginPageComponent/RightSideOfLoginPage/MemberLoginComponent/LoginComponent/login.jsx"
 import LogOut from "../Layouts/LogOut/LogOut.jsx";
 
 const indexRoutes = [
     {path: "/dashboard", component: Dashboard},
-    {path: "/PricingPackage" , component : Pricing},
+    {path: "/pricing" , component : Pricing},
     {path: "/YourCourses" , component : Dashboard},
     {path: "/UserProfile", component: Dashboard},
     {path: "/Info-page", component: Dashboard},
@@ -20,6 +21,7 @@ const indexRoutes = [
     {path: "/OfficialAccounts", component: OfficialAccounts},
     {path: "/AboutUs" , component: AboutUs},
     {path : "/Offers" , component: OffersPage},
+    {path:"/Login", component:login},
     {path: "/signUp", component: SignUp},
     {path: "/LogOut",component:LogOut}
 ];

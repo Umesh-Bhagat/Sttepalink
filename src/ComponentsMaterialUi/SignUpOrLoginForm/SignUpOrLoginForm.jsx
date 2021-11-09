@@ -23,7 +23,7 @@ function SignUpOrLoginForm({ ...props }) {
                 width: "100%",
                 fontSize: "180%", 
                 fontWeight: "800",
-                padding:"8% 0% 1% 2%",
+                padding:"6% 0% 1% 2%",
                 margin:"0%",
                 borderRadius: "15px 15px  0px 0px",
                 color:"rgb(255, 255, 255)",
@@ -32,6 +32,7 @@ function SignUpOrLoginForm({ ...props }) {
              <CardBody>
                  {children}
              </CardBody>
+             <hr style={{margin:"5px 0 0 0"}}/>
              <CardFooter>
                  <Button onClick={props.clicked} >Submit</Button>             
              </CardFooter>

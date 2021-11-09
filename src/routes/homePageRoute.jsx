@@ -1,4 +1,4 @@
-import LoginPage from "../Layouts/LoginPage/LoginPage.jsx";
+import LoginPage from "../Layouts/LoginPage/Login.jsx";
 
 
 const homePageRoute = [

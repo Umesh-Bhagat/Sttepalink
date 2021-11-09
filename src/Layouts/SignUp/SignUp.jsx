@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
 import {Redirect} from 'react-router-dom';
+import { VALIDATOR_REQUIRED } from '../../utilityFolder/validator.js';
 
 import CustomInput from '../../ComponentsMaterialUi/CustomInput/CustomInput.jsx';
 import CustomButton from "../../ComponentsMaterialUi/CustomButtons/Button.jsx";
@@ -9,7 +10,7 @@ import GridContainer from '../../ComponentsMaterialUi/Grid/GridContainer.jsx';
 import GridItem from '../../ComponentsMaterialUi/Grid/GridItem.jsx';
 import Card from "../../ComponentsMaterialUi/Card/Card.jsx";
 import CardBody from "../../ComponentsMaterialUi/Card/CardBody.jsx";
-import SttepalinkLogo from "../../assets/images/Untitled.png";
+import SttepalinkLogo from "../../assets/images/studentsOnComputer.jpg";
 import * as actions from "../../Store/actions/index";
 
 const history = createBrowserHistory({forceRefresh: true});
@@ -567,50 +568,28 @@ class SignUpComponent extends Component{
   
       
       let form =(
-        <Card style={{background:"rgb(255, 255, 255,.6)",boxShadow:"none",margin:"0%",border:"1px solid rgb(217, 217, 217)"}}> 
-      <GridContainer style={{background:"rgb(230, 231, 237)"}}>
+       <GridContainer style={{background:"white",margin:"0"}}>
         <GridItem xs={12} sm={7} md={7}>
-         <CardBody>
            <GridContainer>
              <GridItem xs={12} sm={12} md={12}>
                <div style={{
                  width:"100%",
-                 padding:"7% 0 0 25%"
+                 padding:"15% 0 0 0%"
                }}>
                  <div 
                    style={{
-                     width:"65%",
+                     width:"100%",
                      height:"auto",
                    }}
                  >
                    <img style={{width:"100%"}} src={SttepalinkLogo} alt="infoImage"/>
                  </div>
-               </div>
-               <div>
-                 <p style={{
-                   width:"100%",
-                   textAlign:"center",
-                   fontSize:"28px",
-                   fontWeight:"700",
-                   marginBottom:"2%"
-                 }}>
-                   STTEPALINK.COM
-                 </p>
-               </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={12} style={{color: "rgb(98, 92, 92)",fontSize:"14px",fontWeight:"650",margin:"0% 0% 0% 2%"}}>
-             &nbsp;&nbsp; &nbsp;Sttepalink is a Learning Platform, Where You Come And Get Your All  Doubt Cleared.
-              We Help You Through Providing You a videos Tutorials And Relates Notes.Sttepalink is a Learning Platform, Where You Come And Get Your All  Doubt Cleared.
-              We Help You Through Providing You a videos Tutorials And Relates Notes.Sttepalink is a Learning Platform, Where You Come And Get Your All  Doubt Cleared.
-              We Help You Through Providing You a videos Tutorials And Relates Notes.Sttepalink is a Learning Platform, Where You Come And Get Your All  Doubt Cleared.
-              We Help You Through Providing You a videos Tutorials And Relates Notes. 
+               </div> 
              </GridItem>
            </GridContainer>
-         </CardBody>
          </GridItem>
          <GridItem  xs={12} sm={5} md={5}>
-         <CardBody style={{background:"rgb(245, 245, 245)"}}>
-          <GridContainer style={{paddingBottom:"2%"}}>
+          <GridContainer style={{paddingBottom:"2%",padding:"25% 0 0 0",}}>
             <GridItem xs={3} sm={3} md={3} >
               <p 
                 style={{
@@ -640,13 +619,25 @@ class SignUpComponent extends Component{
            </GridItem>
           </GridContainer> 
           <GridContainer  style={{paddingBottom:".5%"}}>
-            <GridItem xs={6} sm={5} md={5}>
-              <CustomInput
+            <GridItem xs={12} sm={10} md={10}>
+              {/* <input 
+              style={{
+                padding:"4% 2% 1% 2%",
+                border:"1px solid gray",
+                width:'100%',
+                fontSize:"18px",
+                border
+              }}
+              placeholder="Name"
+              /> */}
+               <CustomInput
                 success={this.state.nameSuccess}
                 error={this.state.nameError}
                 formControlProps={{
                   fullWidth: true,
                 }}
+                validators={[VALIDATOR_REQUIRED()]}
+                style={{borderRadius:".4em",border:"none"}}
                 id="name"
                 labelText={this.state.userDetails.name.placeholder}
                 elementType={this.state.userDetails.name.elementType}
@@ -657,9 +648,9 @@ class SignUpComponent extends Component{
                   readOnly: false,
                   type:this.state.userDetails.name.type,
                 }}
-               /> 
+               />
             </GridItem>
-            <GridItem xs={6} sm={7} md={7}>
+            <GridItem xs={12} sm={10} md={10}>
              <CustomInput
                success={this.state.emailSuccess}
                error={this.state.emailError}
@@ -680,7 +671,7 @@ class SignUpComponent extends Component{
             </GridItem>
           </GridContainer>
           <GridContainer style={{paddingBottom:".5%"}}>
-          <GridItem xs={6} sm={4} md={8}>
+          {/* <GridItem xs={6} sm={7} md={7}>
           <CustomInput
             success={this.state.fatherNameSuccess}
             error={this.state.fatherNameError}
@@ -698,8 +689,8 @@ class SignUpComponent extends Component{
               type:this.state.userDetails.fatherName.type,
             }}
            /> 
-         </GridItem>  
-         <GridItem xs={6} sm={4} md={4}>
+         </GridItem>   */}
+         {/* <GridItem xs={6} sm={6} md={6} style={{textAlign:"center"}}>
           <CustomInput
             success={this.state.sexSuccess}
             error={this.state.sexError}
@@ -717,10 +708,10 @@ class SignUpComponent extends Component{
               type:this.state.userDetails.sex.type,
             }}
            /> 
-         </GridItem>
+         </GridItem> */}
        </GridContainer>
        <GridContainer style={{paddingBottom:".5%"}}>
-          <GridItem xs={6} sm={4} md={4}>
+          {/* <GridItem xs={6} sm={6} md={6}>
           <CustomInput
             success={this.state.dateOfBirthSuccess}
             error={this.state.dateOfBirthError}
@@ -738,8 +729,8 @@ class SignUpComponent extends Component{
               type:this.state.userDetails.dateOfBirth.type,
             }}
            /> 
-         </GridItem>
-            <GridItem xs={6} sm={4} md={4}>
+         </GridItem> */}
+            {/* <GridItem xs={6} sm={6} md={6}>
              <CustomInput
                id="workAs"
                formControlProps={{
@@ -756,8 +747,8 @@ class SignUpComponent extends Component{
                  type:this.state.userDetails.workAs.type,
                }}
               /> 
-            </GridItem>
-            <GridItem xs={6} sm={4} md={4}>
+            </GridItem> */}
+            <GridItem xs={6} sm={5} md={5}>
              <CustomInput
                id="Standart"
                formControlProps={{
@@ -774,28 +765,7 @@ class SignUpComponent extends Component{
                }}
               /> 
             </GridItem> 
-          </GridContainer>
-          <GridContainer style={{paddingBottom:".5%"}}>
-            <GridItem xs={6} sm={4} md={7}>
-             <CustomInput
-               success={this.state.SchoolNameSuccess}
-               error={this.state.SchoolNameError}                     
-               id="SchoolName"
-               formControlProps={{
-                 fullWidth: true,
-               }}
-               labelText={this.state.userDetails.SchoolName.placeholder}
-               elementType={this.state.userDetails.SchoolName.elementType}
-               value={this.state.userDetails.SchoolName.value}
-               handleChange={(event) =>this.InputChangeHandler(event , "SchoolName")}
-               inputProps={{
-                 autoComplete:"off",
-                 readOnly: false,
-                 type:this.state.userDetails.SchoolName.type,
-               }}
-              /> 
-            </GridItem>
-            <GridItem xs={6} sm={4} md={5}>
+            <GridItem xs={6} sm={5} md={5}>
              <CustomInput
               success={this.state.mobileNoSuccess}
               error={this.state.mobileNoError}
@@ -814,8 +784,30 @@ class SignUpComponent extends Component{
                }}
               /> 
             </GridItem>
+          </GridContainer>
+           <GridContainer style={{paddingBottom:".5%"}}>
+           {/* <GridItem xs={12} sm={12} md={12}>
+             <CustomInput
+               success={this.state.SchoolNameSuccess}
+               error={this.state.SchoolNameError}                     
+               id="SchoolName"
+               formControlProps={{
+                 fullWidth: true,
+               }}
+               labelText={this.state.userDetails.SchoolName.placeholder}
+               elementType={this.state.userDetails.SchoolName.elementType}
+               value={this.state.userDetails.SchoolName.value}
+               handleChange={(event) =>this.InputChangeHandler(event , "SchoolName")}
+               inputProps={{
+                 autoComplete:"off",
+                 readOnly: false,
+                 type:this.state.userDetails.SchoolName.type,
+               }}
+              /> 
+            </GridItem> */}
+           
          </GridContainer>
-         <GridContainer>
+         {/* <GridContainer>
            <GridItem>
              <p style={{
                  textDecoration:"underline",
@@ -827,8 +819,8 @@ class SignUpComponent extends Component{
                 Current Address:
              </p>
            </GridItem>
-         </GridContainer>
-         <GridContainer >
+         </GridContainer> */}
+         {/* <GridContainer >
          <GridItem xs={6} sm={4} md={7}>
           <CustomInput
             success={this.state.currentAddressSuccess}
@@ -945,7 +937,7 @@ class SignUpComponent extends Component{
             }}
            /> 
          </GridItem>
-       </GridContainer>
+       </GridContainer> */}
        <GridContainer style={{paddingTop:"5%"}} >   
          <GridItem xs={12} sm={12} md={4}>
            <CustomInput
@@ -997,20 +989,17 @@ class SignUpComponent extends Component{
              </CustomButton>
            </GridItem>
          </GridContainer>
-       </CardBody>
        </GridItem>
        </GridContainer>
-     </Card>
     )
 
   //background-coloe : #b366ffs
   let redirectToHomePage = null;
   if(this.props.isAuthenticated){
-    console.log("Authenticated..");
     redirectToHomePage = <Redirect to="/home" />
   }
   return (
-    <div style={{backgroundColor:"#dbdad5", width:"100%", padding:'.5% 0'}}>
+    <div>
       {form}
       {redirectToHomePage}
     </div>
