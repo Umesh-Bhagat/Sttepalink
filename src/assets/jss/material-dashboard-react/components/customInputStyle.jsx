@@ -99,9 +99,10 @@ const customInputStyle = {
     textDecoration:"none"
   },
   inputStyle:{
-    width:"90%",
-    height:"45px",
-    paddingLeft:"2%",
+    width:"100%",
+    height:"38px",
+    padding:"8px 0 2px 10px",
+    borderRadius:"0 .5em .5em  0",
     border:"none",
     outline:"none",
     "&:hover,&:focus": {

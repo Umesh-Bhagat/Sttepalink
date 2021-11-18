@@ -1,10 +1,10 @@
 import React from "react";
-import LogoImage from "../../../Components/infodeskImage/InfodeskImage";
+import LogoImage from "../../Components/infodeskImage/InfodeskImage";
 const LoginHeader = ({...props}) =>{
 
  return(
    <>
-     <nav className="navbar navbar-light px-2 py-0 border-bottom shadow-sm p-3 mb-5" style={{zIndex:"500", background:"rgb(102, 163, 255,.6)"}}>
+     <nav className="navbar navbar-light px-2 py-0 border-bottom shadow-sm p-3" style={{zIndex:"500", background:"rgb(102, 163, 255,.6)"}}>
         <div className="d-flex">
            <div style={{width:"50px"}}>
            <div className="p-1">

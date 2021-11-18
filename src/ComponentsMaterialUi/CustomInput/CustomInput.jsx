@@ -1,4 +1,4 @@
-import React,{useReducer} from "react";
+import React,{useReducer,useEffect} from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import InputsIcons from "../icons/icons.jsx";
@@ -14,13 +14,31 @@ import Input from "@material-ui/core/Input";
 // @material-ui/icons
 import Clear from "@material-ui/icons/Clear";
 import Check from "@material-ui/icons/Check";
+import {validation} from "../../utilityFolder/validator";
 // core components
 import customInputStyle from "../../assets/jss/material-dashboard-react/components/customInputStyle.jsx";
+
+const customInputReducer = (state,action) => {
+  switch(action.type){
+    case "INPUT_CHANGE" :
+      return{
+        ...state,
+        value:action.value,
+        isValid:(validation(action.value,action.isValid))
+      }
+    case "TOGGLE-PASSWORD-VISIBILITY" :
+      return{
+        ...state,
+        PasswordVisible : action.PasswordVisible
+      }
+  }
+}
 
 function CustomInput({ ...props }) {
   const {
     classes,
     formControlProps,
+    validator,
     VisibleIconName,
     NotVisibleIconName,
     labelText,
@@ -28,7 +46,11 @@ function CustomInput({ ...props }) {
     selectForm,
     style,
     elementType,
+    OuterInputStyle,
+    InnerInputStyle,
+    type,
     selectPlaceholder,
+    InputDataChangeHandler,
     placeholder,
     inputChangeHandler,
     className,
@@ -39,20 +61,34 @@ function CustomInput({ ...props }) {
     inputProps,
     error,
     success,
-    value,
+    // value,
     valid,
     finalValue,
     onChange,
     ...rest
   } = props;
 
-  // const [initialState , dispatch] = useReducer(
-  //   customInputReducer,{
-  //     value:""
-  //   }
-  // );
+  const [initialCustomInputState , dispatch] = useReducer(
+    customInputReducer,{
+      value:" ",
+      isValid:false,
+      PasswordVisible:false,
+  });
+
+  const { value , isValid } = initialCustomInputState;
+
+  useEffect(()=>{
+    InputDataChangeHandler(id,value,isValid);
+  },[id,value, isValid,InputDataChangeHandler]);
 
   const [open, setOpen] = React.useState(false);
+
+  const ToggleVisivilityIcon = ( ) =>{
+    dispatch({
+      type:"TOGGLE-PASSWORD-VISIBILITY",
+      PasswordVisible:!initialCustomInputState.PasswordVisible
+    });
+}
 
   const handleClose = () => {
     setOpen(false);
@@ -79,6 +115,16 @@ function CustomInput({ ...props }) {
     [classes.marginTop]: labelText === undefined,
     
   });
+
+  const inputDataChangeHandler = (event) =>{
+    event.preventDefault();
+    let value = event.target.value;  
+    dispatch({
+      type:"INPUT_CHANGE",
+      value:value,
+      isValid:validator
+    })
+  }
 
  let inputElement = null;
  
@@ -120,22 +166,23 @@ function CustomInput({ ...props }) {
 
      case "inputWithIcon" :
       return(
-        <div>
+        <div style={{padding:"3px 0"}}>
           {!valid && finalValue?(
           <p className={classes.errMegStyl}>
             Please enter your valid {placeholder}
           </p>):null}
           <div 
           className={!valid && finalValue?classes.notValid:classes.inputBorder}
+           style = {OuterInputStyle}
           >
+           <InputsIcons IconType={IconName}/>
            <input  
            className={classes.inputStyle}
-           type={elementType}
+           type={type}
+           style={InnerInputStyle}
            placeholder={placeholder}
-           {...rest}
-            onChange={inputChangeHandler}
-           />
-           <InputsIcons IconType={IconName}/>       
+            onChange={inputDataChangeHandler}
+           />       
          </div>
         </div>
       )
@@ -153,19 +200,19 @@ function CustomInput({ ...props }) {
             >
               <input  
               className={classes.inputStyle}
-            //  type={initialInputState.PasswordVisible?"text":"password"}
+              type={initialCustomInputState.PasswordVisible?"text":"password"}
               placeholder={placeholder}
               {...rest}
-              onChange={inputChangeHandler}
+              onChange={inputDataChangeHandler}
               />
               <div 
               style={{
                 width:"40px",
                 paddingTop:"10px",
               }}
-            //  onClick={ToggleVisivilityIcon}
+              onClick={ToggleVisivilityIcon}
               >
-                {/* initialInputState.PasswordVisible*/true?( 
+                { initialCustomInputState.PasswordVisible?( 
                    <InputsIcons IconType={VisibleIconName}/>
                   ):(<InputsIcons IconType={NotVisibleIconName}/>)
                 }

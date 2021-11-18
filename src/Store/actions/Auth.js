@@ -65,6 +65,7 @@ export const checkSignUpAuthTimeOut = (experationTime) => {
 }
 
 export const Auth = (emailId,password,isSignUp,otherData) => {
+  console.log(emailId,password)
   return dispatch => {
     dispatch(AuthStart());
     const DataToAuth = {
@@ -79,6 +80,7 @@ export const Auth = (emailId,password,isSignUp,otherData) => {
     }
     Axios.post(url,DataToAuth)
     .then(response =>{
+      console.log(response)
       const experationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
      localStorage.setItem("token",response.data.idToken);
      localStorage.setItem("userId",response.data.localId);

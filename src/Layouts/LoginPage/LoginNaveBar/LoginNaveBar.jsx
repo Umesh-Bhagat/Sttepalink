@@ -1,6 +1,6 @@
 import React from "react";
-import NavigationBar from '../../../../../ComponentsMaterialUi/NavigationBar/NavigationBar.jsx';
-import NavigationItem from '../../../../../ComponentsMaterialUi/NavigationBar/NavigationItems';
+import NavigationBar from '../../../ComponentsMaterialUi/NavigationBar/NavigationBar.jsx';
+import NavigationItem from '../../../ComponentsMaterialUi/NavigationBar/NavigationItems';
 
 const LoginNavBar = ({...Props}) => {
   return(

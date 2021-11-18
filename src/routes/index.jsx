@@ -5,7 +5,7 @@ import OfficialAccounts from "../Views/AuthorisedSection/AuthorisedSection.jsx";
 import AboutUs from "../Layouts/AboutUs/AboutUs.jsx";
 import OffersPage from "../Layouts/OffersPage/OffersPage.jsx";
 import SignUp from "../Layouts/SignUp/SignUp.jsx";
-import login from "../Layouts/LoginPage/LoginPageComponent/RightSideOfLoginPage/MemberLoginComponent/LoginComponent/login.jsx"
+import login from "../Layouts/LoginPage/login.jsx";
 import LogOut from "../Layouts/LogOut/LogOut.jsx";
 
 const indexRoutes = [

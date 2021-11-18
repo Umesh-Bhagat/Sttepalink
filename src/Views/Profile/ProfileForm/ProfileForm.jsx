@@ -2,7 +2,7 @@ import React from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import Button from '../../../ComponentsMaterialUi/CustomButtons/Button';
-import Barlogo from '../../../assets/images/Screenshot-(3).png';
+import Barlogo from "../../../Components/infodeskImage/InfodeskImage";
 import Card from '../../../ComponentsMaterialUi/Card/Card.jsx';
 import CardHeadder from '../../../ComponentsMaterialUi/Card/CardHeader.jsx';
 import CardBody from '../../../ComponentsMaterialUi/Card/CardBody.jsx';

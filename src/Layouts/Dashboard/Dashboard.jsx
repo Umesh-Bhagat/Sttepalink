@@ -10,7 +10,7 @@ import Sidebar from "../../ComponentsMaterialUi/SideBar/Sidebar.jsx";
 import Header from "../../ComponentsMaterialUi/Header/Header.jsx";
 import dashboardRoutes from "../../routes/dashboard.jsx";
 import dashboardStyle from "../../assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
-import image from "../../assets/images/Screenshot-(3).png";
+import image from "../../Components/infodeskImage/InfodeskImage";
 
 const switchRoutes = (
   <Switch>

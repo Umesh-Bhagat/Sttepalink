@@ -1,9 +1,11 @@
 import React from "react";
-import BackgroundImage from "../../../assets/images/studentLearning.jpg"  
+import LoginPageHeader from "./SttepalinkViewPageHeader.jsx";
+import BackgroundImage from "../../assets/images/studentLearning.jpg"  
 
 const LoginFrame = ({props}) =>{
  return(
    <>
+     <LoginPageHeader/>
      <div 
        style={{ 
          position:"fixed",

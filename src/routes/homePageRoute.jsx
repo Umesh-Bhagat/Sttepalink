@@ -1,4 +1,4 @@
-import LoginPage from "../Layouts/LoginPage/Login.jsx";
+import LoginPage from "../Layouts/UserFirstViewPage/SttepalinkFirstViewPage";
 
 
 const homePageRoute = [
