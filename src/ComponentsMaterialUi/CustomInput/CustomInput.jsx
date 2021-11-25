@@ -24,7 +24,7 @@ const customInputReducer = (state,action) => {
       return{
         ...state,
         value:action.value,
-        isValid:(validation(action.value,action.isValid))
+        isValid:(validation(action.value,action.validator))
       }
     case "TOGGLE-PASSWORD-VISIBILITY" :
       return{
@@ -61,8 +61,8 @@ function CustomInput({ ...props }) {
     inputProps,
     error,
     success,
-    // value,
     valid,
+    assigedValue,
     finalValue,
     onChange,
     ...rest
@@ -70,7 +70,7 @@ function CustomInput({ ...props }) {
 
   const [initialCustomInputState , dispatch] = useReducer(
     customInputReducer,{
-      value:" ",
+      value:"",
       isValid:false,
       PasswordVisible:false,
   });
@@ -122,7 +122,7 @@ function CustomInput({ ...props }) {
     dispatch({
       type:"INPUT_CHANGE",
       value:value,
-      isValid:validator
+      validator:validator
     })
   }
 
@@ -162,29 +162,54 @@ function CustomInput({ ...props }) {
         <Check className={classes.feedback + " " + classes.labelRootSuccess} />
       ) : null}
     </FormControl>
-     break;
+    break;
 
-     case "inputWithIcon" :
-      return(
-        <div style={{padding:"3px 0"}}>
+   case "inputWithIcon" :
+     return(
+        <div>
           {!valid && finalValue?(
           <p className={classes.errMegStyl}>
-            Please enter your valid {placeholder}
+            PLEASE ENTER {placeholder}
           </p>):null}
           <div 
           className={!valid && finalValue?classes.notValid:classes.inputBorder}
-           style = {OuterInputStyle}
           >
-           <InputsIcons IconType={IconName}/>
-           <input  
-           className={classes.inputStyle}
-           type={type}
-           style={InnerInputStyle}
-           placeholder={placeholder}
-            onChange={inputDataChangeHandler}
-           />       
+            {type !== "date" && IconName ?
+               <InputsIcons IconType={IconName}/>
+               : <p style={{padding:"12px 4px 0 4px",margin:"0",fontSize:"14px",color:"#8c8c8c",fontWeight:"650"}}>{placeholder}</p> 
+            }
+           {type !== "select" &&
+             <input  
+             className={classes.inputStyle}
+             type={type}
+             style={InnerInputStyle}
+             placeholder={placeholder}
+             value={value}
+             onChange={inputDataChangeHandler}
+             />
+           }
+           {
+             type === "select" && 
+             <select
+               id={id}
+               className={classes.inputStyle}
+               style={InnerInputStyle}
+               value={value}
+               onChange={inputDataChangeHandler}
+             >
+                {menuOptions.map(menuItems => (
+                  <option 
+                    key={menuItems.value}
+                    value={menuItems.value}
+                    name={menuItems.value}
+                  >
+                    {menuItems.displayValue}
+                 </option>
+                ))}
+             </select>
+           }        
          </div>
-        </div>
+       </div>
       )
 
       case "password" :

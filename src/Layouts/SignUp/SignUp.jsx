@@ -1,4 +1,4 @@
-import React,{ useReducer} from 'react';
+import React,{ useReducer , useCallback} from 'react';
 import { connect } from "react-redux";
 import { createBrowserHistory } from "history";
 import {Redirect} from 'react-router-dom';
@@ -18,7 +18,35 @@ import * as actions from "../../Store/actions/index";
 const history = createBrowserHistory({forceRefresh: true});
 
 const SignUpPageReducer = (state,action) =>{
-  console.log("hello");
+ switch(action.type){
+    case "INPUT-VALIDATION" :
+    let forIsValid = true;
+    for(let inputId in state.userDetails){
+      if(inputId === action.id){
+        forIsValid = forIsValid && action.isValid;
+      }else{
+        forIsValid = forIsValid && state.userDetails[inputId].isValid;
+      }
+    }  
+
+    return{
+      ...state,
+      userDetails:{
+        ...state.userDetails,
+        [action.id] :{
+          value:action.value,
+          isValid:action.isValid
+        } 
+      },
+      isValid:forIsValid  
+    }
+
+    case "DATA-SUBMITTED":
+      return{
+        ...state,
+        submitted:action.submitted
+      }
+ }
 }
 
 const SignUpComponent = (props)=>{
@@ -26,66 +54,21 @@ const SignUpComponent = (props)=>{
   const {isAuthenticated} = props
 
   const [initialSignUpState , dispatch] = useReducer(
-    SignUpPageReducer , {userDetails:{
+    SignUpPageReducer , {
+      userDetails:{
       name:{
        value:"",
        isValid:false
       },
-      emailId:{
+      email:{
        value:"",
        isValid:false
       },
-      Standart:{
-       options:[
-         { 
-            value:"Class 12 Sci. (Without Biology)",
-            displayValue:"Class 12 Sci. (Without Biology)"
-         },
-         { 
-           value:"Class 12 Sci.(Without Maths)",
-           displayValue:"Class 12 Sci.(Without Maths)"
-         },
-         {
-           value:"Class 12 Commerce",
-           displayValue:"Class 12 Commerce"
-         },
-         {
-           value:"Class 12 Arts",
-           displayValue:"Class 12 Arts"
-         },
-         { 
-           value:"Class 11 Sci.(Without Biology)",
-           displayValue:"Class 11 Sci.(Without Biology)"
-         },
-         { 
-           value:"Class 11 Sci.(Without Maths)",
-           displayValue:"Class 11 Sci.(Without Maths)"
-         },
-         { 
-           value:"Class 11 Commerce", 
-           displayValue:"Class 11 Commerce" 
-         },
-         { 
-           value:"Class 11 Arts", 
-           displayValue:"Class 11 Arts" 
-         },
-         { 
-           value:"Class 10", 
-           displayValue:"Class 10" 
-         },
-         { 
-           value:"Class 9", 
-           displayValue:"Class 9" 
-         },
-         { 
-           value:"Class 8", 
-           displayValue:"Class 8" 
-         },
-       ],
+      standart:{
        value:"Class 10" ,
        isvalid:false
       },
-      SchoolName:{
+      school:{
        value:"",
        isvalid:false
       },
@@ -97,12 +80,7 @@ const SignUpComponent = (props)=>{
        value:'',
        isValid:false
       },
-      sex:{
-       options:[
-         { value:"Male", displayValue:"Male" },
-         { value:"Female", displayValue:"Female" },
-         {value:"Other",displayValue:"Others"}
-        ],
+      gender:{
         value:'Male',
         isValid:false      
       },
@@ -110,27 +88,84 @@ const SignUpComponent = (props)=>{
        value:'',
        isValid:false
       },
-      pincode:{
+      state:{
        value:'',
        isValid:false
       },
-      states:{
-       value:'',
-       isValid:false
-      },
-      Password:{
+      password:{
        value:"",
        isValid:false
       },
-      ConfirmPassword:{
+      confirmPassword:{
        value:"",
        isValid:false
       }
     },
+    standardOptions:{
+      options:[
+        { 
+          value:"",
+          displayValue:"select"
+       },
+        { 
+           value:"Class 12 Sci. (Without Biology)",
+           displayValue:"Class 12 Sci. (Without Biology)"
+        },
+        { 
+          value:"Class 12 Sci.(Without Maths)",
+          displayValue:"Class 12 Sci.(Without Maths)"
+        },
+        {
+          value:"Class 12 Commerce",
+          displayValue:"Class 12 Commerce"
+        },
+        {
+          value:"Class 12 Arts",
+          displayValue:"Class 12 Arts"
+        },
+        { 
+          value:"Class 11 Sci.(Without Biology)",
+          displayValue:"Class 11 Sci.(Without Biology)"
+        },
+        { 
+          value:"Class 11 Sci.(Without Maths)",
+          displayValue:"Class 11 Sci.(Without Maths)"
+        },
+        { 
+          value:"Class 11 Commerce", 
+          displayValue:"Class 11 Commerce" 
+        },
+        { 
+          value:"Class 11 Arts", 
+          displayValue:"Class 11 Arts" 
+        },
+        { 
+          value:"Class 10", 
+          displayValue:"Class 10" 
+        },
+        { 
+          value:"Class 9", 
+          displayValue:"Class 9" 
+        },
+        { 
+          value:"Class 8", 
+          displayValue:"Class 8" 
+        },
+      ],
+    },
+    genderOption:{
+      options:[
+        { value:"",displayValue:"select" },
+        { value:"Male", displayValue:"Male" },
+        { value:"Female", displayValue:"Female" },
+        {value:"Other",displayValue:"Others"}
+       ],
+    },
     isValid:false,
     toggleform:false,
-    CurrentUsingPlan:'',
-    VarifiedPasswords : ''
+    currentUsingPlan:'',
+    submitted:false,
+    varifiedPasswords : ''
   });
 
 
@@ -142,61 +177,55 @@ const SignUpComponent = (props)=>{
    }
   }
 
-  
-
   const SubmitData = (MatchedPassword) => {
     const userDetails = {
       PlanName: localStorage.getItem("Package"),
-      name:initialSignUpState.name.value,
-      emailId:initialSignUpState.emailId.value,
-      class:initialSignUpState.Standart.value,
-      SchoolName: initialSignUpState.SchoolName.value,
-      mobileNo: initialSignUpState.mobileNo.value,
-      dateOfBirth: initialSignUpState.dateOfBirth.value,
-      sex: initialSignUpState.sex.value,
-      district: initialSignUpState.district.value,
-      pincode: initialSignUpState.pincode.value,
-      states: initialSignUpState.states.value
+      name:initialSignUpState.userDetails.name.value,
+      emailId:initialSignUpState.userDetails.email.value,
+      class:initialSignUpState.userDetails.standart.value,
+      SchoolName: initialSignUpState.userDetails.school.value,
+      mobileNo: initialSignUpState.userDetails.mobileNo.value,
+      dateOfBirth: initialSignUpState.userDetails.dateOfBirth.value,
+      sex: initialSignUpState.userDetails.gender.value,
+      district: initialSignUpState.userDetails.district.value,
+      states: initialSignUpState.userDetails.state.value
     }
     props.signUpAuth(userDetails.emailId,MatchedPassword,true,userDetails);   
   }
 
   const SubmitUserDetails = (e ) => {
-     e.preventDefault();
-     let MatchedPassword = " ";
-     const password1 = initialSignUpState.Password.value ;
-     const password2 =  initialSignUpState.ConfirmPassword.value;
+   e.preventDefault();
+
+   dispatch({
+     type:"DATA-SUBMITTED",
+     submitted:true
+    });
+
+   let MatchedPassword = " ";
+   const password1 = initialSignUpState.userDetails.password.value ;
+   const password2 =  initialSignUpState.userDetails.confirmPassword.value;
    
-     MatchedPassword = PasswordValidation(password1,password2);
+   MatchedPassword = PasswordValidation(password1,password2);
        
-     if(MatchedPassword && initialSignUpState.isValid){
-       console.log(MatchedPassword)
-       SubmitData(MatchedPassword);
-      }else{
-       console.log("some Inputs are empty");
-      }
-  
-    };
-   
-   const   InputChangeHandler = (event, inputIdentifier ) =>{
-     console.log(inputIdentifier);
-     const CopyOfUserDetails = {
-       ...initialSignUpState
-     };
- 
-     const UpdatedUserDetails = {
-       ...CopyOfUserDetails[inputIdentifier]
-     };
-   
-   //  UpdatedUserDetails.value = event.target.value;
-     CopyOfUserDetails[inputIdentifier] = UpdatedUserDetails;
-    //  setState({userDetails:CopyOfUserDetails});
+   if(MatchedPassword && initialSignUpState.isValid){
+     console.log(MatchedPassword)
+     SubmitData(MatchedPassword);
+    }else{
+     console.log("some Inputs are empty");
     }
+  };
+   
+  const InputChangeHandler = useCallback((id,value,isValid) =>{
+     dispatch({
+       type: "INPUT-VALIDATION",
+       id:id,
+       value:value,
+       isValid:isValid
+      });
+    },[]);
 
-    const Package = localStorage.getItem("Package");
+  const Package = localStorage.getItem("Package");
 
-    
-      
       let form =(
        <GridContainer style={{background:"white",margin:"0"}}>
         <GridItem xs={12} sm={7} md={7}>
@@ -227,7 +256,7 @@ const SignUpComponent = (props)=>{
                  fontWeight:"700",
                  padding:"1% 0",
                  margin:"7% 0 0 0",
-                 color:"rgb(133, 133, 224,.9)"
+                 color:"rgb(102, 140, 255)"
                }}
               >
                 𝐒𝐢𝐠𝐧 𝐔𝐩 𝐇𝐞𝐫𝐞...
@@ -241,209 +270,193 @@ const SignUpComponent = (props)=>{
                   padding:"2%",
                   margin:"2% 2% 0 0 ",
                   color:"white",
-                  background:"rgb(204, 153, 255)",
+                  background:"rgb(102, 140, 255)",
                 }}
               >
               Selected Plan : {Package}
               </p>
             </GridItem>
          </GridContainer>
-         <GridContainer style={{paddingBottom:"2%",padding:"6% 2% 0 0",}}>
+         <GridContainer style={{paddingBottom:"2%",padding:"4% 2% 0 0",}}>
+            <GridItem xs={12} sm={6} md={6}>
+             <CustomInput
+              elementType="inputWithIcon"
+              placeholder="EMAIL"
+              type="email"
+              id="email"
+              IconName="MailOutlineIcon"
+              OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
+              InputDataChangeHandler={InputChangeHandler}
+              valid={initialSignUpState.userDetails.email.isValid}
+              finalValue={initialSignUpState.submitted}
+              validator={[VALIDATION_REQUIRED(),VALIDATION_EMAIL()]}
+              /> 
+            </GridItem>
             <GridItem xs={12} sm={6} md={6}>
               <CustomInput
                elementType="inputWithIcon"
-               placeholder="Name"
+               placeholder="NAME"
                type="text"
                id="name"
                OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
                IconName="PersonIcon"
-               InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-              // InputDataChangeHandler={inputChangeHandler}
-              // valid={initialLoginState.loginData.emailId.isValid}
-              // finalValue={initialLoginState.subitted}
+               InputDataChangeHandler={InputChangeHandler}
+               valid={initialSignUpState.userDetails.name.isValid}
+               finalValue={initialSignUpState.submitted}
                validator={[VALIDATION_REQUIRED()]}
                />
             </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
-             <CustomInput
-              elementType="inputWithIcon"
-              placeholder="Email id"
-              type="email"
-              id="emailId"
-              IconName="MailOutlineIcon"
-              OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-              InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-             // InputDataChangeHandler={inputChangeHandler}
-             // valid={initialLoginState.loginData.emailId.isValid}
-             // finalValue={initialLoginState.subitted}
-              validator={[VALIDATION_REQUIRED(),VALIDATION_EMAIL()]}
-              /> 
-            </GridItem>
             <GridItem xs={12} sm={12} md={12}>
              <CustomInput              
-              id="SchoolName"
+              id="school"
               elementType="inputWithIcon"
               type="text"
-              placeholder="School name"
+              placeholder="SCHOOL NAME"
               IconName="SchoolIcon"
               OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-              InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-            //  InputDataChangeHandler={inputChangeHandler}
-             // valid={initialLoginState.loginData.emailId.isValid}
-             // finalValue={initialLoginState.subitted}
-              validator={[VALIDATION_REQUIRED(),VALIDATION_EMAIL()]}
-              /> 
-            </GridItem>
-            <GridItem xs={6} sm={4} md={4}>
-             <CustomInput
-              id="Standart"
-              elementType="inputWithIcon"
-              placeholder="Class"
-              IconName="ClassIcon"
-              OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-              InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-             // InputDataChangeHandler={inputChangeHandler}
-             // valid={initialLoginState.loginData.emailId.isValid}
-             // finalValue={initialLoginState.subitted}
+              InputDataChangeHandler={InputChangeHandler}
+              valid={initialSignUpState.userDetails.school.isValid}
+              finalValue={initialSignUpState.submitted}
               validator={[VALIDATION_REQUIRED()]}
               /> 
-            </GridItem> 
-            <GridItem xs={12} sm={6} md={4} style={{textAlign:"center"}}>
+            </GridItem>
+            <GridItem xs={6} sm={4} md={7}>
              <CustomInput
-               elementType="inputWithIcon"
-               placeholder="Gender"
-               type="text"
-               id="gender"
-               OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-               IconName="WcIcon"
-               InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-               //  InputDataChangeHandler={inputChangeHandler}
-               // valid={initialLoginState.loginData.emailId.isValid}
-               // finalValue={initialLoginState.subitted}
-               validator={[VALIDATION_REQUIRED()]}
+              id="standart"
+              elementType="inputWithIcon"
+              type="select"
+              menuOptions={initialSignUpState.standardOptions.options}
+              placeholder="CLASS"
+              IconName="ClassIcon"
+              assigedValue={initialSignUpState.userDetails.standart.value}
+              OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
+              InputDataChangeHandler={InputChangeHandler}
+              valid={initialSignUpState.userDetails.standart.isValid}
+              finalValue={initialSignUpState.submitted}
+              validator={[VALIDATION_REQUIRED()]}
               /> 
-           </GridItem>
-           <GridItem xs={6} sm={6} md={4}>
-             <CustomInput
-               id="dateOfBirth"
-               elementType="inputWithIcon"
-               placeholder="Date of birth"
-               type="text"
-               IconName="DateRangeIcon"
-               OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-               InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-               //  InputDataChangeHandler={inputChangeHandler}
-               // valid={initialLoginState.loginData.emailId.isValid}
-               // finalValue={initialLoginState.subitted}
-               validator={[VALIDATION_REQUIRED(),VALIDATION_EMAIL()]}
-             /> 
-           </GridItem> 
-           
-            <GridItem xs={6} sm={6} md={6}>
+            </GridItem>
+            <GridItem xs={6} sm={6} md={5}>
              <CustomInput
              id="mobileNo"
              elementType="inputWithIcon"
-             placeholder="Mobile number"
+             placeholder="MOBILE NUMBER"
              type="number"
              IconName="CallIcon"
              OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-             InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-            // InputDataChangeHandler={inputChangeHandler}
-            // valid={initialLoginState.loginData.emailId.isValid}
-            // finalValue={initialLoginState.subitted}
+             InputDataChangeHandler={InputChangeHandler}
+             valid={initialSignUpState.userDetails.mobileNo.isValid}
+             finalValue={initialSignUpState.submitted}
              validator={[VALIDATION_REQUIRED()]}
               /> 
             </GridItem>
+            <GridItem xs={12} sm={6} md={6} style={{textAlign:"center"}}>
+             <CustomInput
+               elementType="inputWithIcon"
+               placeholder="GENDER"
+               type="select"
+               id="gender"
+               menuOptions={initialSignUpState.genderOption.options}
+               assigedValue={initialSignUpState.userDetails.gender.value}
+               OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
+               IconName="WcIcon"
+               InputDataChangeHandler={InputChangeHandler}
+               valid={initialSignUpState.userDetails.gender.isValid}
+               finalValue={initialSignUpState.submitted}
+               validator={[VALIDATION_REQUIRED()]}
+              /> 
+           </GridItem>
+           <GridItem xs={6} sm={6} md={6}>
+             <CustomInput
+               id="dateOfBirth"
+               elementType="inputWithIcon"
+               placeholder="DOB"
+               type="date"
+               IconName="DateRangeIcon"
+               OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
+               InputDataChangeHandler={InputChangeHandler}
+               valid={initialSignUpState.userDetails.dateOfBirth.isValid}
+               finalValue={initialSignUpState.submitted}
+               validator={[VALIDATION_REQUIRED()]}
+             /> 
+           </GridItem> 
+           
+           
          
          <GridItem xs={6} sm={6} md={6}>
           <CustomInput
           id="district"
           elementType="inputWithIcon"
-          placeholder="District"
+          placeholder="DISTRICT"
           type="text"
           IconName="District"
           OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-          InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-        //  InputDataChangeHandler={inputChangeHandler}
-         // valid={initialLoginState.loginData.emailId.isValid}
-         // finalValue={initialLoginState.subitted}
+          InputDataChangeHandler={InputChangeHandler}
+          valid={initialSignUpState.userDetails.district.isValid}
+          finalValue={initialSignUpState.submitted}
           validator={[VALIDATION_REQUIRED()]}
            /> 
          </GridItem>
-         <GridItem xs={6} sm={7} md={7}>
+         <GridItem xs={6} sm={7} md={6}>
           <CustomInput
            id="state"
            elementType="inputWithIcon"
-           placeholder="State"
+           placeholder="STATE"
            type="text"
            IconName="AddLocationIcon"
            OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-           InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-         //  InputDataChangeHandler={inputChangeHandler}
-          // valid={initialLoginState.loginData.emailId.isValid}
-          // finalValue={initialLoginState.subitted}
-           validator={[VALIDATION_REQUIRED(),VALIDATION_EMAIL()]}
-           /> 
-         </GridItem>
-         <GridItem xs={6} sm={5} md={5}>
-          <CustomInput
-           id="pinCode"
-           elementType="inputWithIcon"
-           type="number"
-           placeholder="Pin code"
-           IconName="FiberPinIcon"
-           OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-           InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-         //  InputDataChangeHandler={inputChangeHandler}
-          // valid={initialLoginState.loginData.emailId.isValid}
-          // finalValue={initialLoginState.subitted}
+           InputDataChangeHandler={InputChangeHandler}
+           valid={initialSignUpState.userDetails.state.isValid}
+           finalValue={initialSignUpState.submitted}
            validator={[VALIDATION_REQUIRED()]}
            /> 
-         </GridItem> 
+         </GridItem>
+         </GridContainer>
+         <GridContainer style={{marginTop:"1%"}}>
          <GridItem xs={12} sm={12} md={6}>
            <CustomInput
-               id="Password"
-               elementType="inputWithIcon"
-               placeholder="Enter password"
-               id="password"
-               IconName="LockOpenIcon"
-               OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-               InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-             //  InputDataChangeHandler={inputChangeHandler}
-              // valid={initialLoginState.loginData.emailId.isValid}
-              // finalValue={initialLoginState.subitted}
-               validator={[VALIDATION_REQUIRED(),VALIDATION_MINLENGTH(6)]}
+              VisibleIconName="VisibilityIcon"
+              NotVisibleIconName="VisibilityOffIcon"
+              type="password"
+              elementType="inputWithIcon"
+              placeholder="ENTER PASSWORD"
+              id="password"
+              IconName="LockOpenIcon"
+              OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
+              InputDataChangeHandler={InputChangeHandler}
+              valid={initialSignUpState.userDetails.password.isValid}
+              finalValue={initialSignUpState.submitted}
+              validator={[VALIDATION_REQUIRED(),VALIDATION_MINLENGTH(6)]}
             /> 
          </GridItem>
            <GridItem  xs={12} sm={12} md={6}>
              <CustomInput
-              id="ConfirmPassword"
+              id="confirmPassword"
               elementType="inputWithIcon"
-              placeholder="Confirm password"
+              placeholder="CONFIRM PASSWORD"
               type="password"
               IconName="LockIcon"
-              OuterInputStyle={{marginBottom:"5px",border:"1px solid rgb(133, 133, 224,.6)",background:"rgb(242, 242, 242)"}}
-              InputDataChangeHandler={(event) =>InputChangeHandler(event , "fatherName")}
-              // InputDataChangeHandler={inputChangeHandler}
-              // valid={initialLoginState.loginData.emailId.isValid}
-              // finalValue={initialLoginState.subitted}
+              VisibleIconName="VisibilityIcon"
+              NotVisibleIconName="VisibilityOffIcon"
+              InputDataChangeHandler={InputChangeHandler}
+              valid={initialSignUpState.userDetails.confirmPassword.isValid}
+              finalValue={initialSignUpState.submitted}
               validator={[VALIDATION_REQUIRED(),VALIDATION_MINLENGTH(6)]}
               /> 
            </GridItem>
-         </GridContainer>
+           </GridContainer>
          <GridContainer>
          <GridItem 
              xs={12} sm={6} md={6}
              style={{marginTop:"4%"}}
            >
              <CustomButton 
-             onClick = {(e)=>SubmitUserDetails(e)}
-             style={{
-               color:"white",
-               fontWeight:"650",
-               background:""
-             }} 
-             >
+               onClick = {(e)=>SubmitUserDetails(e)}
+               style={{
+                 color:"white",
+                 fontWeight:"650",
+                }} 
+              >
               Submit
              </CustomButton>
            </GridItem>
@@ -452,10 +465,9 @@ const SignUpComponent = (props)=>{
        </GridContainer>
     )
 
-  //background-coloe : #b366ffs
   let redirectToHomePage = null;
   if(isAuthenticated){
-     redirectToHomePage = <Redirect to="/home" />
+     redirectToHomePage = <Redirect to="/dashboard" />
   }
   return (
     <div>
@@ -467,6 +479,7 @@ const SignUpComponent = (props)=>{
   }
 
   const mapDispatchToState = state => {
+    console.log(state.Auth.token)
     return{
       userId :state.Auth.userId,
       isAuthenticated:state.Auth.token != null

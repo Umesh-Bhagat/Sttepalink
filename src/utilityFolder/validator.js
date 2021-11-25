@@ -13,12 +13,12 @@ export const VALIDATION_MINLENGTH = ( value ) =>({
 });
 
 export const VALIDATION_EMAIL = ( value ) => ({
-   type:VALIDATOR_TYPE_EMAIL,
-   value:value
+   type:VALIDATOR_TYPE_EMAIL    
 });
 
 
 export const validation = (value , validators) =>{
+   
    let forIsValid = true;
    for(let validator in validators){
       if(validators[validator].type === VALIDATOR_TYPE_REQUIRED){
@@ -30,6 +30,6 @@ export const validation = (value , validators) =>{
       if(validators[validator].type === VALIDATOR_TYPE_EMAIL){
          forIsValid = forIsValid && /^\S+@\S+\.\S+$/.test(value)
       }
-      return forIsValid;
    }
+   return forIsValid;
 }

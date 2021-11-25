@@ -73,19 +73,6 @@ const Loginclass = ({onAuth,IsAuthenticated}) =>{
     subitted:false
   });
 
-
-  // componentDidMount() {
-  //   const CopyOfLoginDetails = {
-  //     ...this.state.LoginDetails
-  //   };
-     
-  //   CopyOfLoginDetails.name.value="";
-  //   CopyOfLoginDetails.emailId.value="";
-  //   CopyOfLoginDetails.Password.value="";
-  //   this.setState({LoginDetails:CopyOfLoginDetails});
-  //  }
- 
-
   const inputChangeHandler = useCallback((id,value,isValid) =>{
     dispatch({
       type:"INPUT-VALIDATION",
@@ -118,9 +105,9 @@ const Loginclass = ({onAuth,IsAuthenticated}) =>{
  }
  let  redirectToHomePage = null;
  if(IsAuthenticated){
-   console.log("its working")
    redirectToHomePage = <Redirect to="/Info-page" />
  }
+ 
  return(
    <>
   {redirectToHomePage}
@@ -151,6 +138,7 @@ const Loginclass = ({onAuth,IsAuthenticated}) =>{
          elementType="inputWithIcon"
          placeholder="Email Id"
          id="emailId"
+         type="email"
          IconName="MailOutlineIcon"
          InputDataChangeHandler={inputChangeHandler}
          valid={initialLoginState.loginData.emailId.isValid}
@@ -160,12 +148,13 @@ const Loginclass = ({onAuth,IsAuthenticated}) =>{
         </GridItem>
      <GridItem xs={12} sm={12} md={12}>
        <CustomInput
-         elementType="password"
+         elementType="inputWithIcon"
          placeholder="password"
          id="password"
          IconName="MailOutlineIcon"
          VisibleIconName="VisibilityIcon"
          NotVisibleIconName="VisibilityOffIcon"
+         IconName="LockOpenIcon"
          InputDataChangeHandler={inputChangeHandler}
          valid={initialLoginState.loginData.password.isValid}
          finalValue={initialLoginState.subitted}
@@ -189,6 +178,7 @@ const Loginclass = ({onAuth,IsAuthenticated}) =>{
 }
 
 const mapStateToProps = state => {
+  console.log(state.Auth.token)
   return{
     IsAuthenticated : state.Auth.token !== null
   } 

@@ -101,37 +101,39 @@ const customInputStyle = {
   inputStyle:{
     width:"100%",
     height:"38px",
-    padding:"8px 0 2px 10px",
+    padding:"8px 0 0px 10px",
     borderRadius:"0 .5em .5em  0",
     border:"none",
+    marginLeft:"1%",
     outline:"none",
     "&:hover,&:focus": {
        outline: "none",
      }
   },
   inputBorder:{
-     width:"100%",
-     display:"flex",
-     marginBottom:"1.3%",
-     padding:'.1%',
-     border:"2px solid rgb(217,217,217)",
-     borderRadius:".5em"
+   marginBottom:"10px",
+   width:"100%",
+   display:"flex",
+   padding:'.1%',
+   borderRadius:".5em",
+   border:"1px solid rgb(133, 133, 224,.6)",
+   background:"rgb(217, 217, 217,.6)"
   },
   notValid:{
    width:"100%",
    display:"flex",
-   marginBottom:"1.3%",
+   marginBottom:"5px",
    padding:'.1%',
    borderRadius:".5em",
-   border:"2px solid red",
-   background:"rgb(255, 51, 51)"
+   border:"1px solid #ff6666",
+   background:"#ff4d4d"
   },
   errMegStyl:{
    margin:"0",
    color:"red",
-   fontSize:"16px",
+   fontSize:"12px",
    paddingLeft:".5%",
-   fontWeight:"600"
+   fontWeight:"550"
   }
  
 };
