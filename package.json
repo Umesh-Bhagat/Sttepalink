@@ -9,7 +9,7 @@
     "@material-ui/styles": "^4.10.0",
     "@types/history": "^4.7.9",
     "autosuggest-highlight": "^3.2.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.6.0",
