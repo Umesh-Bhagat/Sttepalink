@@ -30,7 +30,7 @@
     "react-scripts": "3.1.1",
     "reactjs-input-validator": "^0.16.4",
     "redux": "^4.1.2",
-    "redux-thunk": "^2.4.0",
+    "redux-thunk": "^2.4.1",
     "video-react": "^0.14.1"
   },
   "scripts": {

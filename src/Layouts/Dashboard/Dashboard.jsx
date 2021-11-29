@@ -87,6 +87,7 @@ App.propTypes = {
 };
 
 const mapStateToProp = (state) => {
+  console.log(state.Auth.token)
   return{
     isAuthenticate : state.Auth.token !== null
   }

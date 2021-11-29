@@ -12,6 +12,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
+
+import LogoImage from "../../Components/infodeskImage/InfodeskImage";
 // core components
 //import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
 
@@ -85,7 +87,9 @@ const Sidebar = ({ ...props }) => {
     <div className={classes.logo}>
       <div className={classes.logoLink}>
         <div className={classes.logoImage}>
-          <img src={logo} alt="logo" className={classes.img} />
+          <div  className={classes.img}>
+          <LogoImage style={{background:"white"}}/>
+          </div>
         </div>
         {logoText}
       </div>

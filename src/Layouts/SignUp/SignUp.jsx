@@ -479,7 +479,6 @@ const SignUpComponent = (props)=>{
   }
 
   const mapDispatchToState = state => {
-    console.log(state.Auth.token)
     return{
       userId :state.Auth.userId,
       isAuthenticated:state.Auth.token != null

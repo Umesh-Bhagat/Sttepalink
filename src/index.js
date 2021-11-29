@@ -24,7 +24,7 @@ const  rootReducer = combineReducers({
 const store = createStore(rootReducer,applyMiddleware(thunk));
 const hist = createBrowserHistory( );
 // const hist = createMemoryHistory();
-
+console.log(store);
 let routeArr = [];
 routeArr = indexRoutes.concat(homePageRoute);
 

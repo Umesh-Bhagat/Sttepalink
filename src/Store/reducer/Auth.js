@@ -4,6 +4,7 @@ import {updateObject} from "../utility";
 const initialState = {
  token:null,
  userId:null,
+ userStatus:null,
  error:null,
  loading:false
 }
@@ -19,6 +20,7 @@ const authSuccess = (state ,action ) => {
     return updateObject(state , {
         token:action.idToken,
         userId:action.userId,
+        userStatus:action.userStatus,
         error:null,
         Loading:false
     });
@@ -39,7 +41,6 @@ const AuthLogOut = (state, action ) =>{
 }
 
 const reducer = ( state = initialState, action) => {
-    console.log("reducer",action)
     switch(action.type){
         case actiontypes.AUTH_START: return authStart(state,action);
         case actiontypes.AUTH_SUCCESS: return authSuccess(state,action);

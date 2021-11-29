@@ -13,7 +13,6 @@ export const AuthStart = ( ) => {
 }
 
 export const AuthSuccess = (token ,userId) =>{
-  console.log(token,userId)
     return{
         type:actions.AUTH_SUCCESS,
         idToken:token,
@@ -58,11 +57,9 @@ export const UserlogOut = ( ) => {
 }
 
 export const checkSignUpAuthTimeOut = (experationTime) => {
-  console.log(experationTime);
   return dispatch =>{
     setTimeout(() => {
        dispatch(UserlogOut());
-       console.log("outoftime")
     },experationTime * 1000);
   }
 }
@@ -85,7 +82,6 @@ export const Auth = (emailId,password,isSignUp,otherData) => {
     .then(response =>{
       console.log(response)
       const experationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
-      console.log(response.data.idToken);
      localStorage.setItem("token",response.data.idToken);
      localStorage.setItem("userId",response.data.localId);
      localStorage.setItem("expiresDate",experationDate);
@@ -104,18 +100,14 @@ export const Auth = (emailId,password,isSignUp,otherData) => {
 export const authCheckState = ( ) => {
   return dispatch =>{
     const token = localStorage.getItem("token");
-    console.log("token",token)
     if(!token){
-      console.log("Its Logout..")
       dispatch(UserlogOut());
     }else{
       const expirationDate =new Date(localStorage.getItem("expiresDate"));
-      console.log(expirationDate)
       if(expirationDate <= new Date()){
         dispatch(UserlogOut());
       }else{
         const userId = localStorage.getItem("userId");
-        console.log(userId)
         dispatch(AuthSuccess(token , userId));
         dispatch(checkSignUpAuthTimeOut((expirationDate.getTime() - new Date().getTime())/1000))
       }
